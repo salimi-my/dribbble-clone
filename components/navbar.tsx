@@ -27,16 +27,17 @@ export default function Navbar() {
         </Link>
         <ul className='hidden lg:flex text-sm font-semibold gap-8'>
           {NavLinks.map((link) => (
-            <Link
-              key={link.key}
-              href={link.href}
-              className='flex items-center hover:opacity-80'
-            >
-              {link.text}{' '}
-              {link.text === 'Learn design' && (
-                <ChevronDownIcon className='ml-1' />
-              )}
-            </Link>
+            <li key={link.key}>
+              <Link
+                href={link.href}
+                className='flex items-center hover:opacity-80'
+              >
+                {link.text}{' '}
+                {link.text === 'Learn design' && (
+                  <ChevronDownIcon className='ml-1' />
+                )}
+              </Link>
+            </li>
           ))}
         </ul>
       </div>
