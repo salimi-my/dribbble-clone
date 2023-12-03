@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { SignInButton, auth } from '@clerk/nextjs';
 
-import AuthProviders from '@/components/auth-providers';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 const NavLinks = [
@@ -13,7 +13,8 @@ const NavLinks = [
 ];
 
 export default function Navbar() {
-  const session = null;
+  const { userId } = auth();
+
   return (
     <nav className='flex justify-between items-center mid-xl:grid mid-xl:grid-cols-[1fr_96px_1fr] h-[100px] border-nav-border px-10'>
       <div className='flex-1 flex justify-start items-center gap-10'>
@@ -52,13 +53,13 @@ export default function Navbar() {
       </Link>
 
       <div className='flex justify-end items-center'>
-        {session && (
+        {userId && (
           <>
             UserAvatar
             <Link href='/create-project'>Share Work</Link>
           </>
         )}
-        {!session && <AuthProviders />}
+        {!userId && <SignInButton mode='modal'>Log in</SignInButton>}
       </div>
     </nav>
   );
