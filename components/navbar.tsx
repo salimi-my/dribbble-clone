@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { auth } from '@clerk/nextjs';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 const NavLinks = [
@@ -62,9 +63,17 @@ export default function Navbar() {
         )}
         {!userId && (
           <div className='flex justify-end items-center gap-6'>
+            <div className='hidden lg:flex justify-between items-center h-12 rounded-full focus-within:outline-none focus-within:ring-0 bg-[#f4f5fb]'>
+              <MagnifyingGlassIcon className='h-6 w-6 ms-5 me-1 text-muted-foreground' />
+              <Input
+                placeholder='Search...'
+                className='h-8 border-none shadow-none pl-0 focus-visible:ring-0'
+              />
+            </div>
+            <MagnifyingGlassIcon className='h-7 w-7 lg:hidden' />
             <Link
               href='/sign-in'
-              className='font-semibold text-sm hover:opacity-80'
+              className='hidden lg:flex font-semibold text-sm hover:opacity-80'
             >
               Log in
             </Link>
