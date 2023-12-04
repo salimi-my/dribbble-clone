@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { SignInButton, auth } from '@clerk/nextjs';
-
+import { auth } from '@clerk/nextjs';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
+
+import { Button } from '@/components/ui/button';
 
 const NavLinks = [
   { href: '/', key: 'Find talent', text: 'Find talent' },
@@ -59,7 +60,22 @@ export default function Navbar() {
             <Link href='/create-project'>Share Work</Link>
           </>
         )}
-        {!userId && <SignInButton mode='modal'>Log in</SignInButton>}
+        {!userId && (
+          <div className='flex justify-end items-center gap-6'>
+            <Link
+              href='/sign-in'
+              className='font-semibold text-sm hover:opacity-80'
+            >
+              Log in
+            </Link>
+            <Button
+              className='rounded-full h-12 px-6 font-semibold hover:opacity-80'
+              asChild
+            >
+              <Link href='/sign-up'>Sign Up</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </nav>
   );
