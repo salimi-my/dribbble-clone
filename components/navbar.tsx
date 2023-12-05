@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { auth } from '@clerk/nextjs';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { AlignLeft, Search } from 'lucide-react';
 
 const NavLinks = [
   { href: '/', key: 'Find talent', text: 'Find talent' },
@@ -18,8 +19,11 @@ export default function Navbar() {
   const { userId } = auth();
 
   return (
-    <nav className='flex justify-between items-center mid-xl:grid mid-xl:grid-cols-[1fr_96px_1fr] h-[100px] border-nav-border px-10'>
-      <div className='flex-1 flex justify-start items-center gap-10'>
+    <nav className='flex justify-between items-center mid-xl:grid mid-xl:grid-cols-[1fr_96px_1fr] h-[100px] border-nav-border px-6 lg:px-10'>
+      <div className='flex-1 flex justify-start items-center gap-1 xl:gap-10'>
+        <Button size='icon' variant='link' className='justify-start'>
+          <AlignLeft className='mid-xl:hidden w-7 h-7' />
+        </Button>
         <Link href='/' className='mid-xl:hidden'>
           <Image
             src='/bribbble-logo.svg'
@@ -64,13 +68,13 @@ export default function Navbar() {
         {!userId && (
           <div className='flex justify-end items-center gap-6'>
             <div className='hidden lg:flex justify-between items-center h-12 rounded-full focus-within:outline-none focus-within:ring-0 bg-[#f4f5fb]'>
-              <MagnifyingGlassIcon className='h-6 w-6 ms-5 me-1 text-muted-foreground' />
+              <Search className='h-5 w-5 ms-5 me-2 text-muted-foreground' />
               <Input
                 placeholder='Search...'
                 className='h-8 border-none shadow-none pl-0 focus-visible:ring-0'
               />
             </div>
-            <MagnifyingGlassIcon className='h-7 w-7 lg:hidden' />
+            <Search className='h-6 w-6 lg:hidden' />
             <Link
               href='/sign-in'
               className='hidden lg:flex font-semibold text-sm hover:opacity-80'
@@ -81,7 +85,7 @@ export default function Navbar() {
               className='rounded-full h-12 px-6 font-semibold hover:opacity-80'
               asChild
             >
-              <Link href='/sign-up'>Sign Up</Link>
+              <Link href='/sign-up'>Sign up</Link>
             </Button>
           </div>
         )}
