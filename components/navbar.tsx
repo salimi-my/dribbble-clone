@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { auth } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { AlignLeft, Search } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const NavLinks = [
   { href: '/', key: 'Find talent', text: 'Find talent' },
@@ -15,8 +16,8 @@ const NavLinks = [
   { href: '/', key: 'Go Pro', text: 'Go Pro' }
 ];
 
-export default function Navbar() {
-  const { userId } = auth();
+export default async function Navbar() {
+  const user = await currentUser();
 
   return (
     <nav className='flex justify-between items-center mid-xl:grid mid-xl:grid-cols-[1fr_96px_1fr] h-[100px] border-nav-border px-6 lg:px-10'>
@@ -59,13 +60,26 @@ export default function Navbar() {
       </Link>
 
       <div className='flex justify-end items-center'>
-        {userId && (
-          <>
-            UserAvatar
-            <Link href='/create-project'>Share Work</Link>
-          </>
+        {user && (
+          <div className='flex justify-end items-center gap-6'>
+            <div className='hidden lg:flex justify-between items-center h-12 rounded-full focus-within:outline-none focus-within:ring-0 bg-[#f4f5fb]'>
+              <Search className='h-5 w-5 ms-5 me-2 text-muted-foreground' />
+              <Input
+                placeholder='Search...'
+                className='h-8 border-none shadow-none pl-0 focus-visible:ring-0'
+              />
+            </div>
+            <Search className='h-6 w-6 lg:hidden' />
+            <Avatar className='h-12 w-12'>
+              <AvatarImage src={user.imageUrl} alt='avatar' />
+              <AvatarFallback>
+                {user.firstName?.charAt(0)}
+                {user.lastName?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          </div>
         )}
-        {!userId && (
+        {!user && (
           <div className='flex justify-end items-center gap-6'>
             <div className='hidden lg:flex justify-between items-center h-12 rounded-full focus-within:outline-none focus-within:ring-0 bg-[#f4f5fb]'>
               <Search className='h-5 w-5 ms-5 me-2 text-muted-foreground' />
