@@ -68,7 +68,7 @@ export default function ProfileMenu() {
                 )}
               </Link>
               <Link
-                href='/'
+                href='/upload-new'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
               >
                 Upload design work
@@ -153,7 +153,7 @@ export default function ProfileMenu() {
                 )}
               </Link>
               <Link
-                href='/'
+                href='/upload-new'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
               >
                 Upload design work
