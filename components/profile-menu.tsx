@@ -61,7 +61,7 @@ export default function ProfileMenu() {
                         {user.lastName?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <p className='mt-4 font-medium'>
+                    <p className='mt-4 font-medium text-[15px]'>
                       {user.firstName} {user.lastName}
                     </p>
                   </>
