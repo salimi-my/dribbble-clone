@@ -12,7 +12,7 @@ export default function SearchInput() {
           className='h-8 border-none shadow-none pl-0 focus-visible:ring-0'
         />
       </div>
-      <Search className='h-6 w-6 lg:hidden' />
+      <Search className='h-[22px] w-[22px] lg:hidden' />
     </>
   );
 }
