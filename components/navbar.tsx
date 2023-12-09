@@ -29,6 +29,7 @@ export default function Navbar() {
           <Image
             src='/bribbble-logo.svg'
             alt='bribbble logo'
+            className='w-24 h-[38px]'
             width={96}
             height={38}
           />
@@ -54,6 +55,7 @@ export default function Navbar() {
         <Image
           src='/bribbble-logo.svg'
           alt='bribbble logo'
+          className='w-24 h-[38px]'
           width={96}
           height={38}
         />

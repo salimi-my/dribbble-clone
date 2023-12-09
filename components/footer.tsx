@@ -20,6 +20,7 @@ export default function Footer() {
           <Image
             src='/bribbble-logo.svg'
             alt='bribbble logo'
+            className='w-[104px] h-[30px]'
             width={104}
             height={30}
           />
