@@ -80,7 +80,7 @@ export default function ProfileMenu() {
                 Work preferences
               </Link>
               <Link
-                href='/'
+                href='/profile'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
               >
                 Settings
@@ -165,7 +165,7 @@ export default function ProfileMenu() {
                 Work preferences
               </Link>
               <Link
-                href='/'
+                href='/profile'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
               >
                 Settings
