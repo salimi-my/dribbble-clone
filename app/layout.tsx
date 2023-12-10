@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { ClerkProvider } from '@clerk/nextjs';
-
 import { Inter } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import { EdgeStoreProvider } from '@/lib/edgestore';
 
 import './globals.css';
 
@@ -20,7 +20,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
