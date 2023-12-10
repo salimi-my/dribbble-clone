@@ -2,11 +2,12 @@
 
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { UploadCloudIcon, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useDropzone, type DropzoneOptions } from 'react-dropzone';
+import Image from 'next/image';
 
 const variants = {
-  base: 'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border border-dashed border-gray-400 dark:border-gray-300 transition-colors duration-200 ease-in-out',
+  base: 'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border-2 border-dashed border-zinc-200 dark:border-gray-300 transition-colors duration-200 ease-in-out',
   image:
     'border-0 p-0 min-h-0 min-w-0 relative shadow-md bg-slate-200 dark:bg-slate-900 rounded-md',
   active: 'border-2',
@@ -17,8 +18,8 @@ const variants = {
 };
 
 type InputProps = {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   className?: string;
   value?: File | string;
   onChange?: (file?: File) => void | Promise<void>;
@@ -120,7 +121,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div>
+      <div className='w-full h-full flex justify-center'>
         <div
           {...getRootProps({
             className: dropZoneClassName,
@@ -144,11 +145,36 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
           ) : (
             // Upload Icon
             <div className='flex flex-col items-center justify-center text-xs text-gray-400'>
-              <UploadCloudIcon className='mb-2 h-7 w-7' />
-              <div className='text-gray-400'>drag & drop to upload</div>
-              <div className='mt-3'>
-                <Button disabled={disabled}>select</Button>
-              </div>
+              <Image
+                src='/picture-placeholder.png'
+                className='w-20 h-[86px] mb-3 hidden md:block'
+                width={80}
+                height={86}
+                alt='picture placeholder'
+              />
+              <p className='text-[#3d3d4e] text-base'>
+                Drag and drop an image, or{' '}
+                <span className='underline underline-offset-[5px] decoration-2 decoration-pink-400'>
+                  Browse
+                </span>
+              </p>
+              <p className='text-sm mt-2 text-[#6e6d7a] text-center'>
+                Minimum 1200px width recommended. Max 2MB each (image only)
+              </p>
+              <ul className='mt-4 md:mt-10 flex flex-col md:flex-row flex-wrap max-w-[700px] list-disc list-inside'>
+                <li className='py-1 px-6 leading-5 text-sm text-[#6e6d7a] md:w-[50%]'>
+                  High resolution images (png, jpg, gif)
+                </li>
+                <li className='py-1 px-6 leading-5 text-sm text-[#6e6d7a] md:w-[50%]'>
+                  Modern image format (webp)
+                </li>
+                <li className='py-1 px-6 leading-5 text-sm text-[#6e6d7a] md:w-[50%]'>
+                  Animated gifs
+                </li>
+                <li className='py-1 px-6 leading-5 text-sm text-[#6e6d7a] md:w-[50%]'>
+                  Only upload media you own the rights to
+                </li>
+              </ul>
             </div>
           )}
 

@@ -3,5 +3,5 @@ export default function UploadLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className='mx-4 py-6'>{children}</div>;
+  return <div className='mx-4 py-4 md:py-6'>{children}</div>;
 }
