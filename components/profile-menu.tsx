@@ -115,14 +115,14 @@ export default function ProfileMenu() {
         <div
           onClick={() => setOpen((prevState) => !prevState)}
           className={cn(
-            'before:content-[""] before:fixed before:z-10 before:top-[100px] before:left-0 before:w-screen before:h-screen before:bg-black/50 transition-opacity ease-in-out duration-300',
-            open ? 'opacity-100' : 'opacity-0'
+            'before:content-[""] before:fixed before:z-10 before:top-[100px] before:left-0 before:w-screen before:h-screen before:bg-black/50 transition-all ease-in-out duration-300',
+            open ? 'opacity-100 visible' : 'opacity-0 invisible'
           )}
         />
         <div
           className={cn(
             'fixed top-[100px] w-full right-0 z-20 transition-opacity ease-in-out duration-300',
-            open ? 'opacity-100' : 'opacity-0'
+            open ? 'opacity-100 visible' : 'opacity-0 invisible'
           )}
         >
           <div className='relative z-10 box-border max-h-[calc(100vh_-_100px)] p-8 overflow-y-scroll border-t border-gray-200 bg-white shadow-lg'>
@@ -154,7 +154,7 @@ export default function ProfileMenu() {
               </Link>
               <Link
                 href='/upload-new'
-                className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
+                className='text-[15px] py-2 hover:opacity-80 transition-all ease-in-out duration-200'
               >
                 Upload design work
               </Link>
