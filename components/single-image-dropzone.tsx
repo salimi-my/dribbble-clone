@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { twMerge } from 'tailwind-merge';
-import { X } from 'lucide-react';
-import { useDropzone, type DropzoneOptions } from 'react-dropzone';
 import Image from 'next/image';
+import { X } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
+import { useDropzone, type DropzoneOptions } from 'react-dropzone';
 
 const variants = {
   base: 'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border-2 border-dashed border-zinc-200 dark:border-gray-300 transition-colors duration-200 ease-in-out',
@@ -121,7 +121,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className='w-full h-full flex justify-center'>
+      <div className='w-full h-full flex flex-col justify-center items-center'>
         <div
           {...getRootProps({
             className: dropZoneClassName,

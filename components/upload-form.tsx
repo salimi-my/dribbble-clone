@@ -1,7 +1,9 @@
 'use client';
 
 import * as z from 'zod';
+import axios from 'axios';
 import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { useEdgeStore } from '@/lib/edgestore';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
 import { SingleImageDropzone } from '@/components/single-image-dropzone';
 import {
   Form,
@@ -26,7 +29,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   image: z.string(),
@@ -39,9 +41,11 @@ const formSchema = z.object({
 
 export default function UploadForm() {
   const router = useRouter();
+  const { toast } = useToast();
   const { edgestore } = useEdgeStore();
   const [file, setFile] = useState<File>();
   const [loading, setLoading] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +59,49 @@ export default function UploadForm() {
     }
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setLoading(true);
+      setImageError(false);
+
+      let imageURL = '';
+      if (file && file instanceof File) {
+        const uploadRes = await edgestore.publicImages.upload({
+          file
+        });
+
+        if (uploadRes.url) {
+          imageURL = uploadRes.url;
+        }
+      } else {
+        setImageError(true);
+        return;
+      }
+
+      const newValues = { ...values, image: imageURL };
+
+      const response = await axios.post('/api/project', newValues);
+
+      if (response.data.success) {
+        toast({
+          variant: 'default',
+          title: 'Success!',
+          description: 'Data has been successfully saved.'
+        });
+        // router.push(response.data.project.id);
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -90,11 +136,17 @@ export default function UploadForm() {
             What have you been working on?
           </h2>
         </div>
+
         <SingleImageDropzone
           className='w-full h-full max-w-5xl min-h-[321px] md:min-h-[524px]'
           value={file}
           onChange={(file) => setFile(file)}
         />
+
+        {imageError && (
+          <p className='text-center text-red-500'>Please select image.</p>
+        )}
+
         <div className='w-full max-w-5xl grid my-8'>
           <div className='flex flex-col space-y-4'>
             <FormField
