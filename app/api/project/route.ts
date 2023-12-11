@@ -1,7 +1,8 @@
 import db from '@/lib/db';
 import { auth } from '@clerk/nextjs';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import Error from 'next/error';
 
 export async function POST(req: Request) {
   try {
@@ -70,6 +71,40 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, project });
   } catch (error: any) {
     console.log('[PROJECT_POST]', error);
+
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const searchParams = req.nextUrl.searchParams;
+    const offset = searchParams.get('offset');
+    const search = searchParams.get('search');
+    const category = searchParams.get('category');
+
+    const projects = await db.project.findMany({
+      skip: typeof offset === 'string' ? parseInt(offset) : 0,
+      take: 12,
+      where: {
+        title: {
+          contains: typeof search === 'string' ? search : undefined
+        },
+        category: {
+          contains: typeof category === 'string' ? category : undefined
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    return NextResponse.json(projects);
+  } catch (error: any) {
+    console.log('[PROJECT_GET]', error);
 
     return NextResponse.json(
       { success: false, error: error.message },
