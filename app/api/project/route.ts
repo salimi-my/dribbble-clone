@@ -1,8 +1,7 @@
 import db from '@/lib/db';
 import { auth } from '@clerk/nextjs';
-import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import Error from 'next/error';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {

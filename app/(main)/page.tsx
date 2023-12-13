@@ -1,5 +1,5 @@
-import ProjectList from '@/components/project-list';
 import db from '@/lib/db';
+import ProjectList from '@/components/project-list';
 
 interface HomePageProps {
   searchParams: {

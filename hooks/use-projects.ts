@@ -2,13 +2,17 @@ import useSWR from 'swr';
 
 import fetcher from '@/lib/fetcher';
 
-interface params {
+interface ProjectParams {
   offset?: number;
   search?: string;
   category?: string;
 }
 
-export default function useGetProjects({ offset, search, category }: params) {
+export default function useProjects({
+  offset,
+  search,
+  category
+}: ProjectParams) {
   let params = '';
 
   if (offset !== undefined && typeof offset === 'number') {
