@@ -22,10 +22,10 @@ export default function Navbar() {
   return (
     <nav className='flex justify-between items-center mid-xl:grid mid-xl:grid-cols-[1fr_96px_1fr] h-[100px] border-nav-border px-6 lg:px-10'>
       <div className='flex-1 flex justify-start items-center gap-1 xl:gap-10'>
-        <Button size='icon' variant='link' className='justify-start'>
+        <Button size='icon' variant='link' className='flex lg:hidden'>
           <AlignLeft className='mid-xl:hidden w-7 h-7' />
         </Button>
-        <Link href='/' className='mid-xl:hidden'>
+        <Link href='/' className='mid-xl:hidden mr-8'>
           <Image
             src='/bribbble-logo.svg'
             alt='bribbble logo'
