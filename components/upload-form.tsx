@@ -88,7 +88,7 @@ export default function UploadForm() {
           title: 'Success!',
           description: 'Data has been successfully saved.'
         });
-        // router.push(response.data.project.id);
+        router.push('/');
       }
     } catch (error) {
       console.log(error);
