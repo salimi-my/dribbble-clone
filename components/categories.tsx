@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function Categories() {
-  const horizontalRef = useRef<HTMLDivElement>(null);
+  const horizontalRef = useRef<HTMLUListElement>(null);
   const { refXOverflowing, refXScrollBegin, refXScrollEnd } =
     useOverflow(horizontalRef);
 
@@ -46,11 +46,11 @@ export default function Categories() {
       >
         <ChevronRight size={18} />
       </span>
-      <div
+      <ul
         ref={horizontalRef}
         className='overflow-x-auto overflow-y-hidden flex gap-2 px-[2px] whitespace-nowrap scroll-smooth scrollbar-hide'
       >
-        <div>
+        <li>
           <div
             className={cn(
               'inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer',
@@ -59,43 +59,43 @@ export default function Categories() {
           >
             Discover
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Animation
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Branding
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Illustration
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Mobile
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Print
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Product Design
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
             Typography
           </div>
-        </div>
-        <div>
+        </li>
+        <li>
           <div
             className={cn(
               'inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer',
@@ -104,8 +104,8 @@ export default function Categories() {
           >
             Web Design
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   );
 }
