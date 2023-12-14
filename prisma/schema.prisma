@@ -3,15 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "mongodb"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 model User {
-  id          String    @id @default(cuid())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String
-  description String?   @db.Text
+  description String?
   githubUrl   String?
   linkedinUrl String?
   createdAt   DateTime  @default(now())
@@ -21,11 +20,11 @@ model User {
 }
 
 model Project {
-  id          String    @id @default(cuid())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String
   title       String
-  description String    @db.Text
-  image       String    @db.Text
+  description String
+  image       String
   liveSiteUrl String
   githubUrl   String
   category    String
