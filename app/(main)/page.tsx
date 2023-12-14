@@ -1,4 +1,5 @@
 import db from '@/lib/db';
+import FilterNav from '@/components/filter-nav';
 import ProjectList from '@/components/project-list';
 
 interface HomePageProps {
@@ -42,7 +43,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5 mb-16'>
-      <h1>Categories</h1>
+      <FilterNav />
       <ProjectList initialData={projects} />
     </section>
   );
