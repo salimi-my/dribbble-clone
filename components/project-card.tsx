@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '@prisma/client';
-import { Bookmark, HeartIcon } from 'lucide-react';
+import { BookmarkIcon, HeartIcon } from 'lucide-react';
 
 import Eye from '@/components/icons/eye';
 import Heart from '@/components/icons/heart';
@@ -17,7 +18,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <div className='flex flex-col gap-2'>
-      <div className='relative w-full h-[225px] overflow-hidden group'>
+      <Link
+        href={`project/${project.id}`}
+        className='relative w-full h-[225px] overflow-hidden group'
+      >
         <Image
           src={project.image}
           alt={project.title}
@@ -32,7 +36,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </div>
             <div className='flex justify-end'>
               <div className='bg-white rounded-full flex justify-center items-center w-10 h-10 ml-3'>
-                <Bookmark size={16} />
+                <BookmarkIcon size={16} />
               </div>
               <div className='bg-white rounded-full flex justify-center items-center w-10 h-10 ml-3'>
                 <HeartIcon size={16} />
@@ -40,7 +44,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
       <div className='flex justify-between items-center'>
         <div className='w-full flex justify-start items-center space-x-2'>
           {isLoading && (
