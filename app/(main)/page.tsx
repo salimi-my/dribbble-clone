@@ -28,23 +28,35 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       ? category
       : undefined;
 
-  const projects = await db.project.findMany({
-    take: 12,
-    where: {
-      title: {
-        contains: titleContains
+  const [projects, totalProjects] = await db.$transaction([
+    db.project.findMany({
+      take: 12,
+      where: {
+        title: {
+          contains: titleContains
+        },
+        category: categoryContains
       },
-      category: categoryContains
-    },
-    orderBy: {
-      createdAt: 'desc'
-    }
-  });
+      orderBy: {
+        createdAt: 'desc'
+      }
+    }),
+    db.project.count({
+      where: {
+        title: {
+          contains: titleContains
+        },
+        category: categoryContains
+      }
+    })
+  ]);
+
+  const pageCount = Math.ceil(totalProjects / 12);
 
   return (
-    <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5 mb-16'>
+    <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5'>
       <FilterNav />
-      <ProjectList initialData={projects} />
+      <ProjectList initialData={projects} pageCount={pageCount} />
     </section>
   );
 }
