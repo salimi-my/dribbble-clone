@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import useClerkUser from '@/hooks/use-clerk-user';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookmarkIcon, HeartIcon } from 'lucide-react';
+import { BookmarkIcon, HeartIcon, Mail } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ProjectHeaderProps {
@@ -27,21 +27,24 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
   return (
     <>
       <div ref={ref} className='flex justify-center'>
-        <h1 className='w-full max-w-5xl text-start text-2xl font-semibold mb-[10px] pt-16'>
+        <h1 className='w-full max-w-5xl text-start text-2xl font-semibold mb-[10px] pt-8 lg:pt-16 px-4 lg:px-0'>
           {title}
         </h1>
       </div>
       <div
         className={cn(
           'sticky top-0 z-10 flex justify-center',
-          entry !== null && entry.intersectionRect.top === 0 && 'border-b'
+          entry !== null && entry.intersectionRect.top === 0 && 'lg:border-b',
+          entry !== null && entry.intersectionRatio === 0 && 'max-lg:border-b'
         )}
       >
-        <div className='w-full max-w-5xl flex justify-between items-center pt-[14px] pb-[10px] bg-white'>
+        <div className='w-full max-w-5xl flex justify-between items-center pt-[14px] pb-[10px] px-4 lg:px-0 bg-white'>
           <div className='flex items-center gap-3'>
-            {isLoading && <Skeleton className='w-12 h-12 rounded-full' />}
+            {isLoading && (
+              <Skeleton className='h-8 w-8 md:h-12 md:w-12 rounded-full' />
+            )}
             {!isLoading && user && (
-              <Avatar className='h-12 w-12 hover:cursor-pointer'>
+              <Avatar className='h-8 w-8 md:h-12 md:w-12 hover:cursor-pointer'>
                 <AvatarImage src={user.imageUrl} alt='avatar' />
                 <AvatarFallback>
                   {user.firstName?.charAt(0)}
@@ -55,13 +58,13 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
                   <Skeleton className='w-28 h-4' />
                   <div className='flex gap-[10px] items-center'>
                     <Skeleton className='w-28 h-3' />
-                    <Skeleton className='w-10 h-3' />
+                    <Skeleton className='hidden lg:block w-10 h-3' />
                   </div>
                 </>
               )}
               {!isLoading && user && (
                 <>
-                  <Link href='/' className='font-semibold text-sm'>
+                  <Link href='/' className='font-semibold text-xs md:text-sm'>
                     <p>
                       {user.firstName} {user.lastName}
                     </p>
@@ -76,7 +79,7 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
                         Available for work
                       </p>
                     </div>
-                    <p className='text-xs font-medium text-muted-foreground hover:cursor-pointer hover:font-semibold'>
+                    <p className='hidden lg:block text-xs font-medium text-muted-foreground hover:cursor-pointer hover:font-semibold'>
                       Follow
                     </p>
                   </div>
@@ -88,18 +91,21 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
             <Button
               variant='outline'
               size='icon'
-              className='rounded-full w-10 h-10'
+              className='rounded-full w-8 h-8 md:w-10 md:h-10'
             >
               <HeartIcon size={16} />
             </Button>
             <Button
               variant='outline'
               size='icon'
-              className='rounded-full w-10 h-10'
+              className='rounded-full w-8 h-8 md:w-10 md:h-10'
             >
               <BookmarkIcon size={16} />
             </Button>
-            <Button className='rounded-full h-10'>Get in touch</Button>
+            <Button className='rounded-full h-8 max-md:w-8 px-2 py-1 md:h-10 md:py-2 md:px-4'>
+              <p className='hidden md:block'>Get in touch</p>
+              <Mail className='w-4 h-4 md:hidden' />
+            </Button>
           </div>
         </div>
       </div>

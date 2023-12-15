@@ -35,7 +35,7 @@ export default async function ProjectPage({
     <Modal>
       <div className='w-full relative pb-[70px]'>
         <ProjectHeader userId={project.userId} title={project.title} />
-        <div className='flex justify-center px-8 lg:px-[120px]'>
+        <div className='flex justify-center md:px-4 lg:px-[120px]'>
           <div className='flex flex-col relative max-w-5xl'>
             <Image
               src={project.image}
@@ -43,10 +43,12 @@ export default async function ProjectPage({
               width={1024}
               height={768}
               priority
-              className='my-7 rounded-md'
+              className='my-7 md:rounded-md'
             />
-            <p className='font-medium text-lg my-8'>{project.description}</p>
-            <div className='flex justify-start gap-2 h-5'>
+            <p className='font-medium text-lg my-8 px-4 md:px-0'>
+              {project.description}
+            </p>
+            <div className='flex justify-start gap-2 h-5 px-4 md:px-0'>
               <div className='inline-flex items-center gap-2'>
                 <Github className='w-5 h-5' />
                 <Link

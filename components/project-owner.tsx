@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import useClerkUser from '@/hooks/use-clerk-user';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Mail } from 'lucide-react';
 
 interface ProjectOwnerProps {
   userId: string;
@@ -16,7 +17,7 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
 
   return (
     <>
-      <div className='w-full flex items-center mt-[70px]'>
+      <div className='w-full flex items-center mt-[70px] px-4 md:px-0'>
         <span className='w-full border bg-[#e7e7e9]' />
         <Link href='/' className='px-6'>
           {isLoading && <Skeleton className='w-[72px] h-[72px] rounded-full' />}
@@ -32,7 +33,7 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
         </Link>
         <span className='w-full border bg-[#e7e7e9]' />
       </div>
-      <div className='flex justify-center mt-5'>
+      <div className='flex justify-center mt-5 px-4 md:px-0'>
         <div className='flex flex-col text-center'>
           {isLoading && (
             <div className='flex flex-col items-center justify-center'>
@@ -52,7 +53,10 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
                 UI & Web Designer. Available for freelance work.
               </p>
               <div className='mt-4'>
-                <Button className='rounded-full h-10'>Get in touch</Button>
+                <Button className='rounded-full h-10'>
+                  <Mail className='mr-1.5 w-4 h-4' />
+                  Get in touch
+                </Button>
               </div>
             </>
           )}

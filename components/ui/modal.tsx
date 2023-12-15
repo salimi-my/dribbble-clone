@@ -31,14 +31,14 @@ export default function Modal({ children }: { children: ReactNode }) {
       <button
         type='button'
         onClick={onDismiss}
-        className='absolute top-2 right-2'
+        className='absolute top-3 right-3 lg:top-2 lg:right-2 z-10'
       >
-        <X className='text-white w-6 h-6 opacity-90 hover:opacity-100' />
+        <X className='text-black lg:text-white w-5 h-5 lg:w-6 lg:h-6 opacity-90 hover:opacity-100' />
       </button>
 
       <div
         ref={wrapper}
-        className='flex justify-start items-center flex-col absolute h-[calc(100vh_-_40px)] animate-slide-up w-full bottom-0 bg-white rounded-t-xl overflow-y-scroll hover:cursor-default'
+        className='flex justify-start items-center flex-col absolute h-screen lg:h-[calc(100vh_-_40px)] animate-slide-up w-full bottom-0 bg-white lg:rounded-t-xl overflow-y-scroll hover:cursor-default'
       >
         {children}
       </div>
