@@ -89,6 +89,7 @@ export default function UploadForm() {
           description: 'Data has been successfully saved.'
         });
         router.push('/');
+        router.refresh();
       }
     } catch (error) {
       console.log(error);
