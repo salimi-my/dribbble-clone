@@ -5,8 +5,28 @@ import { useOverflow } from 'use-overflow';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+const categories = [
+  'Discover',
+  'Animation',
+  'Branding',
+  'Illustration',
+  'Mobile',
+  'Print',
+  'Product Design',
+  'Typography',
+  'Web Design'
+];
 
 export default function Categories() {
+  const router = useRouter();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+
+  const category = searchParams.get('category');
+  const search = searchParams.get('search');
+
   const horizontalRef = useRef<HTMLUListElement>(null);
   const { refXOverflowing, refXScrollBegin, refXScrollEnd } =
     useOverflow(horizontalRef);
@@ -21,6 +41,22 @@ export default function Categories() {
           : scrollLeft + clientWidth;
 
       horizontalRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
+  const handleFilter = (item: string) => {
+    if (item === 'Discover') {
+      if (search === null) {
+        router.push(`${pathName}`);
+      } else {
+        router.push(`${pathName}?search=${search}`);
+      }
+    } else {
+      if (search === null) {
+        router.push(`${pathName}?category=${item}`);
+      } else {
+        router.push(`${pathName}?search=${search}&category=${item}`);
+      }
     }
   };
 
@@ -50,61 +86,26 @@ export default function Categories() {
         ref={horizontalRef}
         className='overflow-x-auto overflow-y-hidden flex gap-2 px-[2px] whitespace-nowrap scroll-smooth scrollbar-hide'
       >
-        <li>
-          <div
-            className={cn(
-              'inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer',
-              refXOverflowing && '-ml-4'
-            )}
-          >
-            Discover
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Animation
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Branding
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Illustration
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Mobile
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Print
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Product Design
-          </div>
-        </li>
-        <li>
-          <div className='inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer'>
-            Typography
-          </div>
-        </li>
-        <li>
-          <div
-            className={cn(
-              'inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer',
-              refXOverflowing && '-mr-4'
-            )}
-          >
-            Web Design
-          </div>
-        </li>
+        {categories.map((item, index) => (
+          <li key={index}>
+            <button
+              onClick={() => handleFilter(item)}
+              type='button'
+              className={cn(
+                'inline-flex items-center h-9 px-4 rounded-full text-sm font-semibold leading-5 hover:opacity-70 hover:cursor-pointer',
+                index === 0 && refXOverflowing && '-ml-4',
+                index === item.length - 1 && refXOverflowing && '-mr-4',
+                (item === category ||
+                  (item === 'Discover' &&
+                    pathName === '/' &&
+                    category === null)) &&
+                  'bg-[#f8f7f4]'
+              )}
+            >
+              {item}
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
