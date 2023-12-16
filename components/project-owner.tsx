@@ -13,7 +13,7 @@ interface ProjectOwnerProps {
 }
 
 export default function ProjectOwner({ userId }: ProjectOwnerProps) {
-  const { user, isLoading } = useGetProfile({ userId });
+  const { data, isLoading } = useGetProfile({ userId });
 
   return (
     <>
@@ -21,12 +21,12 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
         <span className='w-full border bg-[#e7e7e9]' />
         <Link href='/' className='px-6'>
           {isLoading && <Skeleton className='w-[72px] h-[72px] rounded-full' />}
-          {!isLoading && user && (
+          {!isLoading && data && data.user && (
             <Avatar className='h-[72px] w-[72px] hover:cursor-pointer'>
-              <AvatarImage src={user.imageUrl} alt='avatar' />
+              <AvatarImage src={data.user.imageUrl} alt='avatar' />
               <AvatarFallback>
-                {user.firstName?.charAt(0)}
-                {user.lastName?.charAt(0)}
+                {data.user.firstName?.charAt(0)}
+                {data.user.lastName?.charAt(0)}
               </AvatarFallback>
             </Avatar>
           )}
@@ -42,11 +42,11 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
               <Skeleton className='h-10 w-28 rounded-full mt-4' />
             </div>
           )}
-          {!isLoading && user && (
+          {!isLoading && data && data.user && (
             <>
               <Link href='/'>
                 <p className='text-xl font-medium'>
-                  {user.firstName} {user.lastName}
+                  {data.user.firstName} {data.user.lastName}
                 </p>
               </Link>
               <p className='text-sm text-muted-foreground mt-2'>

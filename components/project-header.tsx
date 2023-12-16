@@ -16,7 +16,7 @@ interface ProjectHeaderProps {
 }
 
 export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
-  const { user, isLoading } = useGetProfile({ userId });
+  const { data, isLoading } = useGetProfile({ userId });
 
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
@@ -43,12 +43,12 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
             {isLoading && (
               <Skeleton className='h-8 w-8 md:h-12 md:w-12 rounded-full' />
             )}
-            {!isLoading && user && (
+            {!isLoading && data && data.user && (
               <Avatar className='h-8 w-8 md:h-12 md:w-12 hover:cursor-pointer'>
-                <AvatarImage src={user.imageUrl} alt='avatar' />
+                <AvatarImage src={data.user.imageUrl} alt='avatar' />
                 <AvatarFallback>
-                  {user.firstName?.charAt(0)}
-                  {user.lastName?.charAt(0)}
+                  {data.user.firstName?.charAt(0)}
+                  {data.user.lastName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
             )}
@@ -62,11 +62,11 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
                   </div>
                 </>
               )}
-              {!isLoading && user && (
+              {!isLoading && data && data.user && (
                 <>
                   <Link href='/' className='font-semibold text-xs md:text-sm'>
                     <p>
-                      {user.firstName} {user.lastName}
+                      {data.user.firstName} {data.user.lastName}
                     </p>
                   </Link>
                   <div className='flex gap-[10px] items-center'>

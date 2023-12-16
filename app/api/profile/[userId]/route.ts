@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { clerkClient } from '@clerk/nextjs';
 
+import db from '@/lib/db';
+
 export async function GET(
   _req: Request,
   { params }: { params: { userId: string } }
@@ -15,7 +17,20 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(user);
+    const profile = await db.profile.findFirst({
+      where: {
+        userId: user.id
+      }
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, error: 'Profile not found.' },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.json({ user, profile });
   } catch (error) {
     let message;
 
@@ -25,7 +40,7 @@ export async function GET(
       message = String(error);
     }
 
-    console.log('[USERID_GET]', error);
+    console.log('[PROFILE_USERID_GET]', error);
 
     return NextResponse.json(
       { success: false, error: message },

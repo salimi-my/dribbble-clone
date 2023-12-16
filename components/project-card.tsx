@@ -14,7 +14,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const { user, isLoading } = useGetProfile({ userId: project.userId });
+  const { data, isLoading } = useGetProfile({ userId: project.userId });
 
   return (
     <div className='flex flex-col gap-2'>
@@ -53,17 +53,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <Skeleton className='w-1/2 h-5' />
             </>
           )}
-          {user && !isLoading && (
+          {!isLoading && data && data.user && (
             <>
               <Avatar className='h-6 w-6 hover:cursor-pointer'>
-                <AvatarImage src={user.imageUrl} alt='avatar' />
+                <AvatarImage src={data.user.imageUrl} alt='avatar' />
                 <AvatarFallback>
-                  {user.firstName?.charAt(0)}
-                  {user.lastName?.charAt(0)}
+                  {data.user.firstName?.charAt(0)}
+                  {data.user.lastName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <p className='text-sm font-medium w-1/2 truncate'>
-                {user.firstName} {user.lastName}
+                {data.user.firstName} {data.user.lastName}
               </p>
             </>
           )}
