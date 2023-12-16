@@ -9,8 +9,9 @@ export default authMiddleware({
     '/sign-in',
     '/sign-up',
     '/project/:path*',
+    '/api/user/:path*',
     '/api/project/:path*',
-    '/api/user/:path*'
+    '/api/edgestore/init'
   ]
 });
 

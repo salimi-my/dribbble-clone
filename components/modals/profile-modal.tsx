@@ -1,9 +1,9 @@
 'use client';
 
 import * as z from 'zod';
-import axios from 'axios';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import axios, { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import isSlug from 'validator/es/lib/isSlug';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +12,7 @@ import Modal from '@/components/ui/modal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
 import { useProfileModal } from '@/hooks/use-profile-modal';
 import {
   Form,
@@ -43,6 +44,7 @@ const formSchema = z.object({
 });
 
 export default function ProfileModal() {
+  const { toast } = useToast();
   const profileModal = useProfileModal();
   const [loading, setLoading] = useState(false);
 
@@ -56,7 +58,41 @@ export default function ProfileModal() {
     }
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setLoading(true);
+
+      const response = await axios.post('/api/profile', values);
+
+      if (response.data.success) {
+        toast({
+          variant: 'default',
+          title: 'Success!',
+          description: 'Profile has been successfully saved.'
+        });
+        window.location.replace('/');
+      }
+    } catch (error) {
+      if (
+        error instanceof AxiosError &&
+        error.response?.data.error === 'Username is not available.'
+      ) {
+        form.setError('username', {
+          type: 'manual',
+          message: error.response.data.error
+        });
+      } else {
+        console.log(error);
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'There was a problem with your request.'
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Modal
