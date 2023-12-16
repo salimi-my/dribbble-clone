@@ -5,7 +5,7 @@ import { useIntersectionObserver } from '@uidotdev/usehooks';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import useClerkUser from '@/hooks/use-clerk-user';
+import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookmarkIcon, HeartIcon, Mail } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,7 +16,7 @@ interface ProjectHeaderProps {
 }
 
 export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
-  const { user, isLoading } = useClerkUser({ userId });
+  const { user, isLoading } = useGetProfile({ userId });
 
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,

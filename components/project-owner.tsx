@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import useClerkUser from '@/hooks/use-clerk-user';
+import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Mail } from 'lucide-react';
@@ -13,7 +13,7 @@ interface ProjectOwnerProps {
 }
 
 export default function ProjectOwner({ userId }: ProjectOwnerProps) {
-  const { user, isLoading } = useClerkUser({ userId });
+  const { user, isLoading } = useGetProfile({ userId });
 
   return (
     <>

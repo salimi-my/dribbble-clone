@@ -5,7 +5,7 @@ import { BookmarkIcon, HeartIcon } from 'lucide-react';
 
 import Eye from '@/components/icons/eye';
 import Heart from '@/components/icons/heart';
-import useClerkUser from '@/hooks/use-clerk-user';
+import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -14,7 +14,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const { user, isLoading } = useClerkUser({ userId: project.userId });
+  const { user, isLoading } = useGetProfile({ userId: project.userId });
 
   return (
     <div className='flex flex-col gap-2'>
