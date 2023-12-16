@@ -68,11 +68,19 @@ export async function POST(req: Request) {
     revalidatePath('/');
 
     return NextResponse.json({ success: true, project });
-  } catch (error: any) {
+  } catch (error) {
+    let message;
+
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+
     console.log('[PROJECT_POST]', error);
 
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: message },
       { status: 500 }
     );
   }
@@ -102,11 +110,19 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json(projects);
-  } catch (error: any) {
+  } catch (error) {
+    let message;
+
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+
     console.log('[PROJECT_GET]', error);
 
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: message },
       { status: 500 }
     );
   }
