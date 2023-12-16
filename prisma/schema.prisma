@@ -7,10 +7,11 @@ datasource db {
   url          = env("DATABASE_URL")
 }
 
-model User {
+model Profile {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String
-  description String?
+  username    String    @unique
+  bio         String?
   githubUrl   String?
   linkedinUrl String?
   createdAt   DateTime  @default(now())

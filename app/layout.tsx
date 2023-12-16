@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 
 import { Toaster } from '@/components/ui/toaster';
 import { EdgeStoreProvider } from '@/lib/edgestore';
+import ModalProvider from '@/providers/modal-provider';
 
 import './globals.css';
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   description: 'A Dribbble clone'
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <EdgeStoreProvider>{children}</EdgeStoreProvider>
           <Toaster />
+          <ModalProvider />
         </body>
       </html>
     </ClerkProvider>
