@@ -81,7 +81,7 @@ export default function ProfileMenu() {
                 type='button'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200 text-left'
               >
-                Work preferences
+                Profile informations
               </button>
               <Link
                 href='/profile'
@@ -166,7 +166,7 @@ export default function ProfileMenu() {
                 type='button'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200 text-left'
               >
-                Work preferences
+                Profile informations
               </button>
               <Link
                 href='/profile'

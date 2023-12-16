@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import axios, { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import isSlug from 'validator/es/lib/isSlug';
 import type { Profile } from '@prisma/client';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,16 +49,17 @@ const formSchema = z.object({
 });
 
 export default function ProfileForm({ profile, onClose }: ProfileFormProps) {
+  const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
-      bio: '',
-      githubUrl: '',
-      linkedinUrl: ''
+      username: (profile && profile.username) ?? '',
+      bio: (profile && profile.bio) ?? '',
+      githubUrl: (profile && profile.githubUrl) ?? '',
+      linkedinUrl: (profile && profile.linkedinUrl) ?? ''
     }
   });
 
@@ -73,7 +75,14 @@ export default function ProfileForm({ profile, onClose }: ProfileFormProps) {
           title: 'Success!',
           description: 'Profile has been successfully saved.'
         });
-        window.location.replace('/');
+
+        if (profile) {
+          onClose();
+          router.push('/');
+          router.refresh();
+        } else {
+          window.location.replace('/');
+        }
       }
     } catch (error) {
       if (
@@ -108,11 +117,7 @@ export default function ProfileForm({ profile, onClose }: ProfileFormProps) {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder='Enter your username'
-                    {...field}
-                  />
+                  <Input placeholder='Enter your username' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -143,11 +148,7 @@ export default function ProfileForm({ profile, onClose }: ProfileFormProps) {
               <FormItem>
                 <FormLabel>GitHub URL</FormLabel>
                 <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder='Enter your GitHub URL'
-                    {...field}
-                  />
+                  <Input placeholder='Enter your GitHub URL' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,11 +161,7 @@ export default function ProfileForm({ profile, onClose }: ProfileFormProps) {
               <FormItem>
                 <FormLabel>LinkedIn URL</FormLabel>
                 <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder='Enter your LinkedIn URL'
-                    {...field}
-                  />
+                  <Input placeholder='Enter your LinkedIn URL' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

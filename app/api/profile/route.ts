@@ -1,6 +1,7 @@
 import db from '@/lib/db';
-import { auth, currentUser } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
+import type { Profile } from '@prisma/client';
+import { auth, currentUser } from '@clerk/nextjs';
 
 export async function POST(req: Request) {
   try {
@@ -46,7 +47,10 @@ export async function POST(req: Request) {
 
     const currentUsername = await db.profile.findUnique({
       where: {
-        username
+        username,
+        NOT: {
+          userId
+        }
       }
     });
 
@@ -57,15 +61,38 @@ export async function POST(req: Request) {
       );
     }
 
-    const profile = await db.profile.create({
-      data: {
-        userId,
-        username,
-        bio,
-        githubUrl,
-        linkedinUrl
+    const currentProfile = await db.profile.findFirst({
+      where: {
+        userId
       }
     });
+
+    let profile: Profile;
+
+    if (!currentProfile) {
+      profile = await db.profile.create({
+        data: {
+          userId,
+          username,
+          bio,
+          githubUrl,
+          linkedinUrl
+        }
+      });
+    } else {
+      profile = await db.profile.update({
+        where: {
+          id: currentProfile.id
+        },
+        data: {
+          userId,
+          username,
+          bio,
+          githubUrl,
+          linkedinUrl
+        }
+      });
+    }
 
     return NextResponse.json({ success: true, profile });
   } catch (error) {
