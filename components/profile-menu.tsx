@@ -7,7 +7,7 @@ import { SignOutButton } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
-import useUserProfile from '@/hooks/use-user-profile';
+import useCurrentProfile from '@/hooks/use-current-profile';
 import EditProfileModal from '@/components/modals/edit-profile-modal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/hover-card';
 
 export default function ProfileMenu() {
-  const { data, isLoading } = useUserProfile();
+  const { data, isLoading } = useCurrentProfile();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
