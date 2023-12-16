@@ -1,7 +1,8 @@
 'use client';
 
-import { useAddProfileModal } from '@/hooks/use-add-profile-modal';
 import { useEffect } from 'react';
+
+import { useAddProfileModal } from '@/hooks/use-add-profile-modal';
 
 export default function AddInfoPage() {
   const onOpen = useAddProfileModal((state) => state.onOpen);

@@ -5,10 +5,10 @@ import { notFound } from 'next/navigation';
 import { Github, Globe } from 'lucide-react';
 
 import db from '@/lib/db';
-import ProjectLayout from '@/components/ui/project-layout';
+import ProjectOwner from '@/components/project-owner';
 import { Separator } from '@/components/ui/separator';
 import ProjectHeader from '@/components/project-header';
-import ProjectOwner from '@/components/project-owner';
+import ProjectLayout from '@/components/ui/project-layout';
 
 export default async function ProjectPage({
   params
