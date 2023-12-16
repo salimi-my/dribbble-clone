@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { SignOutButton, useUser } from '@clerk/nextjs';
+import { SignOutButton } from '@clerk/nextjs';
 
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
+import useUserProfile from '@/hooks/use-user-profile';
+import EditProfileModal from '@/components/modals/edit-profile-modal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   HoverCard,
@@ -15,23 +17,24 @@ import {
 } from '@/components/ui/hover-card';
 
 export default function ProfileMenu() {
-  const { user, isLoaded } = useUser();
-  const [open, setOpen] = useState(false);
+  const { data, isLoading } = useUserProfile();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
+      {/* desktop menu */}
       <div className='hidden lg:flex'>
         <HoverCard openDelay={300}>
           <HoverCardTrigger>
-            {(!isLoaded || !user) && (
-              <Skeleton className='rounded-full h-12 w-12' />
-            )}
-            {isLoaded && user && (
+            {isLoading && <Skeleton className='rounded-full h-12 w-12' />}
+            {!isLoading && data && data.user && (
               <Avatar className='h-12 w-12 hover:cursor-pointer'>
-                <AvatarImage src={user.imageUrl} alt='avatar' />
+                <AvatarImage src={data.user.imageUrl} alt='avatar' />
                 <AvatarFallback>
-                  {user.firstName?.charAt(0)}
-                  {user.lastName?.charAt(0)}
+                  {data.user.firstName?.charAt(0)}
+                  {data.user.lastName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
             )}
@@ -46,23 +49,23 @@ export default function ProfileMenu() {
                 href='/'
                 className='flex flex-col justify-center items-center mb-5'
               >
-                {(!isLoaded || !user) && (
+                {isLoading && (
                   <>
                     <Skeleton className='rounded-full h-20 w-20' />
                     <Skeleton className='mt-4 h-6 w-40' />
                   </>
                 )}
-                {isLoaded && user && (
+                {!isLoading && data && data.user && (
                   <>
                     <Avatar className='h-20 w-20 hover:cursor-pointer'>
-                      <AvatarImage src={user.imageUrl} alt='avatar' />
+                      <AvatarImage src={data.user.imageUrl} alt='avatar' />
                       <AvatarFallback>
-                        {user.firstName?.charAt(0)}
-                        {user.lastName?.charAt(0)}
+                        {data.user.firstName?.charAt(0)}
+                        {data.user.lastName?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                     <p className='mt-4 font-medium text-[15px]'>
-                      {user.firstName} {user.lastName}
+                      {data.user.firstName} {data.user.lastName}
                     </p>
                   </>
                 )}
@@ -73,12 +76,13 @@ export default function ProfileMenu() {
               >
                 Upload design work
               </Link>
-              <Link
-                href='/'
-                className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
+              <button
+                onClick={() => setModalOpen(true)}
+                type='button'
+                className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200 text-left'
               >
                 Work preferences
-              </Link>
+              </button>
               <Link
                 href='/profile'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
@@ -96,33 +100,32 @@ export default function ProfileMenu() {
         </HoverCard>
       </div>
 
+      {/* mobile menu */}
       <div className='block lg:hidden'>
-        {(!isLoaded || !user) && (
-          <Skeleton className='rounded-full h-[38px] w-[38px]' />
-        )}
-        {isLoaded && user && (
+        {isLoading && <Skeleton className='rounded-full h-[38px] w-[38px]' />}
+        {!isLoading && data && data.user && (
           <Avatar
-            onClick={() => setOpen((prevState) => !prevState)}
+            onClick={() => setMenuOpen((prevState) => !prevState)}
             className='h-[38px] w-[38px] hover:cursor-pointer'
           >
-            <AvatarImage src={user.imageUrl} alt='avatar' />
+            <AvatarImage src={data.user.imageUrl} alt='avatar' />
             <AvatarFallback>
-              {user.firstName?.charAt(0)}
-              {user.lastName?.charAt(0)}
+              {data.user.firstName?.charAt(0)}
+              {data.user.lastName?.charAt(0)}
             </AvatarFallback>
           </Avatar>
         )}
         <div
-          onClick={() => setOpen((prevState) => !prevState)}
+          onClick={() => setMenuOpen((prevState) => !prevState)}
           className={cn(
             'before:content-[""] before:fixed before:z-10 before:top-[100px] before:left-0 before:w-screen before:h-screen before:bg-black/50 transition-all ease-in-out duration-300',
-            open ? 'opacity-100 visible' : 'opacity-0 invisible'
+            menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           )}
         />
         <div
           className={cn(
             'fixed top-[100px] w-full right-0 z-20 transition-opacity ease-in-out duration-300',
-            open ? 'opacity-100 visible' : 'opacity-0 invisible'
+            menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           )}
         >
           <div className='relative z-10 box-border max-h-[calc(100vh_-_100px)] p-8 overflow-y-scroll border-t border-gray-200 bg-white shadow-lg'>
@@ -131,23 +134,23 @@ export default function ProfileMenu() {
                 href='/'
                 className='flex flex-col justify-center items-center mb-5'
               >
-                {(!isLoaded || !user) && (
+                {isLoading && (
                   <>
                     <Skeleton className='rounded-full h-20 w-20' />
                     <Skeleton className='mt-4 h-6 w-40' />
                   </>
                 )}
-                {isLoaded && user && (
+                {!isLoading && data && data.user && (
                   <>
                     <Avatar className='h-20 w-20 hover:cursor-pointer'>
-                      <AvatarImage src={user.imageUrl} alt='avatar' />
+                      <AvatarImage src={data.user.imageUrl} alt='avatar' />
                       <AvatarFallback>
-                        {user.firstName?.charAt(0)}
-                        {user.lastName?.charAt(0)}
+                        {data.user.firstName?.charAt(0)}
+                        {data.user.lastName?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                     <p className='mt-4 font-medium text-[15px]'>
-                      {user.firstName} {user.lastName}
+                      {data.user.firstName} {data.user.lastName}
                     </p>
                   </>
                 )}
@@ -158,12 +161,13 @@ export default function ProfileMenu() {
               >
                 Upload design work
               </Link>
-              <Link
-                href='/'
-                className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
+              <button
+                onClick={() => setModalOpen(true)}
+                type='button'
+                className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200 text-left'
               >
                 Work preferences
-              </Link>
+              </button>
               <Link
                 href='/profile'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
@@ -171,12 +175,12 @@ export default function ProfileMenu() {
                 Settings
               </Link>
               <Separator className='my-3' />
-              {(!isLoaded || !user) && (
+              {isLoading && (
                 <>
                   <Skeleton className='h-5 mt-3 w-20' />
                 </>
               )}
-              {isLoaded && user && (
+              {!isLoading && data && data.user && (
                 <SignOutButton>
                   <button className='text-[15px] pt-2 text-left hover:opacity-80 transition-opacity ease-in-out duration-200'>
                     Sign out
@@ -187,6 +191,15 @@ export default function ProfileMenu() {
           </div>
         </div>
       </div>
+
+      {/* Profile Modal */}
+      {!isLoading && data && data.profile && (
+        <EditProfileModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          profile={data.profile}
+        />
+      )}
     </>
   );
 }
