@@ -1,5 +1,5 @@
 import db from '@/lib/db';
-import { auth } from '@clerk/nextjs';
+import { auth, currentUser } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -78,6 +78,49 @@ export async function POST(req: Request) {
     }
 
     console.log('[PROFILE_POST]', error);
+
+    return NextResponse.json(
+      { success: false, error: message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(_req: Request) {
+  try {
+    const user = await currentUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthenticated.' },
+        { status: 401 }
+      );
+    }
+
+    const profile = await db.profile.findFirst({
+      where: {
+        userId: user.id
+      }
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, error: 'Profile not found.' },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.json({ user, profile });
+  } catch (error) {
+    let message;
+
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+
+    console.log('[PROFILE_GET]', error);
 
     return NextResponse.json(
       { success: false, error: message },
