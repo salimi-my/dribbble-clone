@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import ProfileModal from '@/components/modals/profile-modal';
+import AddProfileModal from '@/components/modals/add-profile-modal';
 
 export default function ModalProvider() {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,7 +17,7 @@ export default function ModalProvider() {
 
   return (
     <>
-      <ProfileModal />
+      <AddProfileModal />
     </>
   );
 }
