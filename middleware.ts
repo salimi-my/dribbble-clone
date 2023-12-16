@@ -8,7 +8,8 @@ export default authMiddleware({
     '/',
     '/sign-in',
     '/sign-up',
-    '/api/project',
+    '/project/:path*',
+    '/api/project/:path*',
     '/api/user/:path*'
   ]
 });
