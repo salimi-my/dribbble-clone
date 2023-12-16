@@ -4,13 +4,13 @@ import type { User } from '@clerk/nextjs/server';
 
 import fetcher from '@/lib/fetcher';
 
-interface CurrentProfileProps {
+interface CurrentProfileData {
   user: User;
   profile: Profile;
 }
 
 export default function useCurrentProfile() {
-  const { data, isLoading, error } = useSWR<CurrentProfileProps>(
+  const { data, isLoading, error } = useSWR<CurrentProfileData>(
     '/api/profile',
     fetcher
   );
