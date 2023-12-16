@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { Github, Globe } from 'lucide-react';
 
 import db from '@/lib/db';
-import Modal from '@/components/ui/modal';
+import ProjectLayout from '@/components/ui/project-layout';
 import { Separator } from '@/components/ui/separator';
 import ProjectHeader from '@/components/project-header';
 import ProjectOwner from '@/components/project-owner';
@@ -32,7 +32,7 @@ export default async function ProjectPage({
   }
 
   return (
-    <Modal>
+    <ProjectLayout>
       <div className='w-full relative pb-[70px]'>
         <ProjectHeader userId={project.userId} title={project.title} />
         <div className='flex justify-center md:px-4 lg:px-[120px]'>
@@ -77,6 +77,6 @@ export default async function ProjectPage({
           </div>
         </div>
       </div>
-    </Modal>
+    </ProjectLayout>
   );
 }
