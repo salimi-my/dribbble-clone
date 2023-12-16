@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 
+import { Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Mail } from 'lucide-react';
 
 interface ProjectOwnerProps {
   userId: string;
@@ -42,7 +42,7 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
               <Skeleton className='h-10 w-28 rounded-full mt-4' />
             </div>
           )}
-          {!isLoading && data && data.user && (
+          {!isLoading && data && data.user && data.profile && (
             <>
               <Link href='/'>
                 <p className='text-xl font-medium'>
@@ -50,7 +50,7 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
                 </p>
               </Link>
               <p className='text-sm text-muted-foreground mt-2'>
-                UI & Web Designer. Available for freelance work.
+                {data.profile.bio}
               </p>
               <div className='mt-4'>
                 <Button className='rounded-full h-10'>
