@@ -237,3 +237,8 @@
     transform: translateY(0) scale(1);
   }
 }
+
+.shadow-search {
+  -webkit-box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.06);
+}

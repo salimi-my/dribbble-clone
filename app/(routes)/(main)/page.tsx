@@ -1,6 +1,7 @@
 import db from '@/lib/db';
 import FilterNav from '@/components/filter-nav';
 import ProjectList from '@/components/project-list';
+import SearchHeader from '@/components/search-header';
 
 interface HomePageProps {
   searchParams: {
@@ -33,7 +34,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       take: 12,
       where: {
         title: {
-          contains: titleContains
+          contains: titleContains,
+          mode: 'insensitive'
         },
         category: categoryContains
       },
@@ -44,7 +46,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     db.project.count({
       where: {
         title: {
-          contains: titleContains
+          contains: titleContains,
+          mode: 'insensitive'
         },
         category: categoryContains
       }
@@ -54,9 +57,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const pageCount = Math.ceil(totalProjects / 12);
 
   return (
-    <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5'>
-      <FilterNav />
-      <ProjectList initialData={projects} pageCount={pageCount} />
-    </section>
+    <>
+      <SearchHeader search={titleContains} />
+      <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5'>
+        <FilterNav />
+        <ProjectList initialData={projects} pageCount={pageCount} />
+      </section>
+    </>
   );
 }

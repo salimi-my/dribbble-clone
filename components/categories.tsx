@@ -24,8 +24,8 @@ export default function Categories() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
 
-  const category = searchParams.get('category');
   const search = searchParams.get('search');
+  const category = searchParams.get('category');
 
   const horizontalRef = useRef<HTMLUListElement>(null);
   const { refXOverflowing, refXScrollBegin, refXScrollEnd } =

@@ -89,20 +89,36 @@ export async function POST(req: Request) {
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
+
     const offset = searchParams.get('offset');
     const search = searchParams.get('search');
     const category = searchParams.get('category');
+
+    const titleContains = typeof search === 'string' ? search : undefined;
+    const categoryContains =
+      typeof category === 'string' &&
+      [
+        'Animation',
+        'Branding',
+        'Illustration',
+        'Mobile',
+        'Print',
+        'Product Design',
+        'Typography',
+        'Web Design'
+      ].includes(category)
+        ? category
+        : undefined;
 
     const projects = await db.project.findMany({
       skip: typeof offset === 'string' ? parseInt(offset) : 0,
       take: 12,
       where: {
         title: {
-          contains: typeof search === 'string' ? search : undefined
+          contains: titleContains,
+          mode: 'insensitive'
         },
-        category: {
-          contains: typeof category === 'string' ? category : undefined
-        }
+        category: categoryContains
       },
       orderBy: {
         createdAt: 'desc'
