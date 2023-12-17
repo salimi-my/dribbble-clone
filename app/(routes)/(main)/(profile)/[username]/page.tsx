@@ -63,7 +63,6 @@ export default async function ProfilePage({
         user={user}
         profile={profile}
         projects={projects}
-        isPro={projects.length === 0}
         isOwner={
           loggedInUser && loggedInUser.id === profile.userId ? true : false
         }
