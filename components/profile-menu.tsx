@@ -118,17 +118,17 @@ export default function ProfileMenu() {
         <div
           onClick={() => setMenuOpen((prevState) => !prevState)}
           className={cn(
-            'before:content-[""] before:fixed before:z-10 before:top-[100px] before:left-0 before:w-screen before:h-screen before:bg-black/50 transition-all ease-in-out duration-300',
+            'before:content-[""] before:fixed before:z-20 before:top-[100px] before:left-0 before:w-screen before:h-screen before:bg-black/50 transition-all ease-in-out duration-200',
             menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           )}
         />
         <div
           className={cn(
-            'fixed top-[100px] w-full right-0 z-20 transition-opacity ease-in-out duration-300',
+            'fixed top-[100px] w-full right-0 z-20 transition-opacity ease-in-out duration-200',
             menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           )}
         >
-          <div className='relative z-10 box-border max-h-[calc(100vh_-_100px)] p-8 overflow-y-scroll border-t border-gray-200 bg-white shadow-lg'>
+          <div className='relative z-20 box-border max-h-[calc(100vh_-_100px)] p-8 overflow-y-scroll border-t border-gray-200 bg-white shadow-lg'>
             <div className='flex flex-col'>
               <Link
                 href='/'
