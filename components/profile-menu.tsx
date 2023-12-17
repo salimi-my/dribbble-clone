@@ -192,7 +192,7 @@ export default function ProfileMenu() {
         </div>
       </div>
 
-      {/* Profile Modal */}
+      {/* profile modal */}
       {!isLoading && data && data.profile && (
         <EditProfileModal
           isOpen={modalOpen}
