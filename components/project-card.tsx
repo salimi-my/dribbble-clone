@@ -45,28 +45,29 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
       </Link>
       <div className='flex justify-between items-center'>
-        <div className='w-full flex justify-start items-center space-x-2'>
-          {isLoading && (
-            <>
-              <Skeleton className='rounded-full h-6 w-6' />
-              <Skeleton className='w-1/2 h-5' />
-            </>
-          )}
-          {!isLoading && data && data.user && (
-            <>
-              <Avatar className='h-6 w-6 hover:cursor-pointer'>
-                <AvatarImage src={data.user.imageUrl} alt='avatar' />
-                <AvatarFallback>
-                  {data.user.firstName?.charAt(0)}
-                  {data.user.lastName?.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-              <p className='text-sm font-medium w-1/2 truncate'>
-                {data.user.firstName} {data.user.lastName}
-              </p>
-            </>
-          )}
-        </div>
+        {isLoading && (
+          <div className='w-full flex justify-start items-center space-x-2'>
+            <Skeleton className='rounded-full h-6 w-6' />
+            <Skeleton className='w-1/2 h-5' />
+          </div>
+        )}
+        {!isLoading && data && data.user && data.profile && (
+          <Link
+            href={`/${data.profile.username}`}
+            className='w-full flex justify-start items-center space-x-2'
+          >
+            <Avatar className='h-6 w-6'>
+              <AvatarImage src={data.user.imageUrl} alt='avatar' />
+              <AvatarFallback>
+                {data.user.firstName?.charAt(0)}
+                {data.user.lastName?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+            <p className='text-sm font-medium w-1/2 truncate'>
+              {data.user.firstName} {data.user.lastName}
+            </p>
+          </Link>
+        )}
         <div className='flex items-center gap-2'>
           <div className='flex items-center space-x-[2px]'>
             <Icons.heart className='w-4 h-4 fill-current text-[#9e9ea7]' />

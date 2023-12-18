@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { SignOutButton } from '@clerk/nextjs';
 
 import { cn } from '@/lib/utils';
@@ -17,6 +18,7 @@ import {
 } from '@/components/ui/hover-card';
 
 export default function ProfileMenu() {
+  const router = useRouter();
   const { data, isLoading } = useCurrentProfile();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,7 +32,10 @@ export default function ProfileMenu() {
           <HoverCardTrigger>
             {isLoading && <Skeleton className='rounded-full h-12 w-12' />}
             {!isLoading && data && data.user && (
-              <Avatar className='h-12 w-12 hover:cursor-pointer'>
+              <Avatar
+                onClick={() => router.push(`/${data?.profile.username}`)}
+                className='h-12 w-12 hover:cursor-pointer'
+              >
                 <AvatarImage src={data.user.imageUrl} alt='avatar' />
                 <AvatarFallback>
                   {data.user.firstName?.charAt(0)}
@@ -45,31 +50,29 @@ export default function ProfileMenu() {
             className='rounded-2xl shadow-sm border-[#f3f3f4] p-8 w-[320px]'
           >
             <div className='flex flex-col'>
-              <Link
-                href='/'
-                className='flex flex-col justify-center items-center mb-5'
-              >
-                {isLoading && (
-                  <>
-                    <Skeleton className='rounded-full h-20 w-20' />
-                    <Skeleton className='mt-4 h-6 w-40' />
-                  </>
-                )}
-                {!isLoading && data && data.user && (
-                  <>
-                    <Avatar className='h-20 w-20 hover:cursor-pointer'>
-                      <AvatarImage src={data.user.imageUrl} alt='avatar' />
-                      <AvatarFallback>
-                        {data.user.firstName?.charAt(0)}
-                        {data.user.lastName?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <p className='mt-4 font-medium text-[15px]'>
-                      {data.user.firstName} {data.user.lastName}
-                    </p>
-                  </>
-                )}
-              </Link>
+              {isLoading && (
+                <div className='flex flex-col justify-center items-center mb-5'>
+                  <Skeleton className='rounded-full h-20 w-20' />
+                  <Skeleton className='mt-4 h-6 w-40' />
+                </div>
+              )}
+              {!isLoading && data && data.user && data.profile && (
+                <Link
+                  href={`/${data.profile.username}`}
+                  className='flex flex-col justify-center items-center mb-5'
+                >
+                  <Avatar className='h-20 w-20'>
+                    <AvatarImage src={data.user.imageUrl} alt='avatar' />
+                    <AvatarFallback>
+                      {data.user.firstName?.charAt(0)}
+                      {data.user.lastName?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <p className='mt-4 font-medium text-[15px]'>
+                    {data.user.firstName} {data.user.lastName}
+                  </p>
+                </Link>
+              )}
               <Link
                 href='/upload-new'
                 className='text-[15px] py-2 hover:opacity-80 transition-opacity ease-in-out duration-200'
@@ -130,31 +133,29 @@ export default function ProfileMenu() {
         >
           <div className='relative z-20 box-border max-h-[calc(100vh_-_100px)] p-8 overflow-y-scroll border-t border-gray-200 bg-white shadow-lg'>
             <div className='flex flex-col'>
-              <Link
-                href='/'
-                className='flex flex-col justify-center items-center mb-5'
-              >
-                {isLoading && (
-                  <>
-                    <Skeleton className='rounded-full h-20 w-20' />
-                    <Skeleton className='mt-4 h-6 w-40' />
-                  </>
-                )}
-                {!isLoading && data && data.user && (
-                  <>
-                    <Avatar className='h-20 w-20 hover:cursor-pointer'>
-                      <AvatarImage src={data.user.imageUrl} alt='avatar' />
-                      <AvatarFallback>
-                        {data.user.firstName?.charAt(0)}
-                        {data.user.lastName?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <p className='mt-4 font-medium text-[15px]'>
-                      {data.user.firstName} {data.user.lastName}
-                    </p>
-                  </>
-                )}
-              </Link>
+              {isLoading && (
+                <div className='flex flex-col justify-center items-center mb-5'>
+                  <Skeleton className='rounded-full h-20 w-20' />
+                  <Skeleton className='mt-4 h-6 w-40' />
+                </div>
+              )}
+              {!isLoading && data && data.user && data.profile && (
+                <Link
+                  href={`/${data.profile.username}`}
+                  className='flex flex-col justify-center items-center mb-5'
+                >
+                  <Avatar className='h-20 w-20 hover:cursor-pointer'>
+                    <AvatarImage src={data.user.imageUrl} alt='avatar' />
+                    <AvatarFallback>
+                      {data.user.firstName?.charAt(0)}
+                      {data.user.lastName?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <p className='mt-4 font-medium text-[15px]'>
+                    {data.user.firstName} {data.user.lastName}
+                  </p>
+                </Link>
+              )}
               <Link
                 href='/upload-new'
                 className='text-[15px] py-2 hover:opacity-80 transition-all ease-in-out duration-200'

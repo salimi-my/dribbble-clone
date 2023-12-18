@@ -43,14 +43,16 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
             {isLoading && (
               <Skeleton className='h-8 w-8 md:h-12 md:w-12 rounded-full' />
             )}
-            {!isLoading && data && data.user && (
-              <Avatar className='h-8 w-8 md:h-12 md:w-12 hover:cursor-pointer'>
-                <AvatarImage src={data.user.imageUrl} alt='avatar' />
-                <AvatarFallback>
-                  {data.user.firstName?.charAt(0)}
-                  {data.user.lastName?.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
+            {!isLoading && data && data.user && data.profile && (
+              <Link href={`/${data.profile.username}`}>
+                <Avatar className='h-8 w-8 md:h-12 md:w-12'>
+                  <AvatarImage src={data.user.imageUrl} alt='avatar' />
+                  <AvatarFallback>
+                    {data.user.firstName?.charAt(0)}
+                    {data.user.lastName?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
             )}
             <div className='flex flex-col gap-1'>
               {isLoading && (
@@ -62,9 +64,12 @@ export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
                   </div>
                 </>
               )}
-              {!isLoading && data && data.user && (
+              {!isLoading && data && data.user && data.profile && (
                 <>
-                  <Link href='/' className='font-semibold text-xs md:text-sm'>
+                  <Link
+                    href={`/${data.profile.username}`}
+                    className='font-semibold text-xs md:text-sm'
+                  >
                     <p>
                       {data.user.firstName} {data.user.lastName}
                     </p>

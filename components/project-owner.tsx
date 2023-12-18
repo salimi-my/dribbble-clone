@@ -19,18 +19,20 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
     <>
       <div className='w-full flex items-center mt-[70px] px-4 md:px-0'>
         <span className='w-full border bg-[#e7e7e9]' />
-        <Link href='/' className='px-6'>
+        <div className='px-6'>
           {isLoading && <Skeleton className='w-[72px] h-[72px] rounded-full' />}
-          {!isLoading && data && data.user && (
-            <Avatar className='h-[72px] w-[72px] hover:cursor-pointer'>
-              <AvatarImage src={data.user.imageUrl} alt='avatar' />
-              <AvatarFallback>
-                {data.user.firstName?.charAt(0)}
-                {data.user.lastName?.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
+          {!isLoading && data && data.user && data.profile && (
+            <Link href={`/${data.profile.username}`}>
+              <Avatar className='h-[72px] w-[72px] hover:cursor-pointer'>
+                <AvatarImage src={data.user.imageUrl} alt='avatar' />
+                <AvatarFallback>
+                  {data.user.firstName?.charAt(0)}
+                  {data.user.lastName?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+            </Link>
           )}
-        </Link>
+        </div>
         <span className='w-full border bg-[#e7e7e9]' />
       </div>
       <div className='flex justify-center mt-5 px-4 md:px-0'>
@@ -44,7 +46,7 @@ export default function ProjectOwner({ userId }: ProjectOwnerProps) {
           )}
           {!isLoading && data && data.user && data.profile && (
             <>
-              <Link href='/'>
+              <Link href={`/${data.profile.username}`}>
                 <p className='text-xl font-medium'>
                   {data.user.firstName} {data.user.lastName}
                 </p>
