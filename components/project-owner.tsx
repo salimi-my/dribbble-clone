@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-
 import { Mail } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
