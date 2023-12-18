@@ -2,39 +2,35 @@
 
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import type { Project } from '@prisma/client';
+import type { Work } from '@prisma/client';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import ProjectPage from '@/components/project-page';
-import ProjectInitialPage from '@/components/project-initial-page';
+import WorkPage from '@/components/work-page';
+import WorkInitialPage from '@/components/work-initial-page';
 
-interface ProjectListProps {
-  initialData: Project[];
+interface WorkListProps {
+  initialData: Work[];
   pageCount: number;
   isProfile?: boolean;
   userId?: string;
 }
 
-export default function ProjectList({
+export default function WorkList({
   initialData,
   pageCount,
   isProfile = false,
   userId
-}: ProjectListProps) {
+}: WorkListProps) {
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const pages = [
-    <ProjectInitialPage
-      key={1}
-      initialData={initialData}
-      isProfile={isProfile}
-    />
+    <WorkInitialPage key={1} initialData={initialData} isProfile={isProfile} />
   ];
   for (let i = 2; i <= count; i++) {
     pages.push(
-      <ProjectPage
+      <WorkPage
         index={i}
         key={i}
         setLoading={setLoading}

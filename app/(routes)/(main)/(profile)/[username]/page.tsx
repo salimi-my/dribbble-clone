@@ -4,7 +4,7 @@ import { clerkClient, currentUser } from '@clerk/nextjs';
 
 import db from '@/lib/db';
 import ProfileNav from '@/components/profile-nav';
-import ProjectList from '@/components/project-list';
+import WorkList from '@/components/work-list';
 import ProfileHeader from '@/components/profile-header';
 
 export default async function ProfilePage({
@@ -39,9 +39,9 @@ export default async function ProfilePage({
     notFound();
   }
 
-  // get user profile's projects
-  const [projects, totalProjects] = await db.$transaction([
-    db.project.findMany({
+  // get user profile's works
+  const [works, totalWorks] = await db.$transaction([
+    db.work.findMany({
       take: 12,
       where: {
         userId: user.id
@@ -50,21 +50,21 @@ export default async function ProfilePage({
         createdAt: 'desc'
       }
     }),
-    db.project.count({
+    db.work.count({
       where: {
         userId: user.id
       }
     })
   ]);
 
-  const pageCount = Math.ceil(totalProjects / 12);
+  const pageCount = Math.ceil(totalWorks / 12);
 
   return (
     <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5'>
       <ProfileHeader
         user={user}
         profile={profile}
-        projects={projects}
+        works={works}
         isOwner={
           loggedInUser && loggedInUser.id === profile.userId ? true : false
         }
@@ -72,8 +72,8 @@ export default async function ProfilePage({
       <ProfileNav username={profile.username} activeNav='work' />
 
       <div className='w-full mt-3 flex flex-col items-center'>
-        <ProjectList
-          initialData={projects}
+        <WorkList
+          initialData={works}
           pageCount={pageCount}
           isProfile={true}
           userId={user.id}

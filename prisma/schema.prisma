@@ -20,7 +20,7 @@ model Profile {
   @@index([userId])
 }
 
-model Project {
+model Work {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String
   title       String

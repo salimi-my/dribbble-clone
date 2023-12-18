@@ -1,6 +1,6 @@
 import db from '@/lib/db';
 import FilterNav from '@/components/filter-nav';
-import ProjectList from '@/components/project-list';
+import WorkList from '@/components/work-list';
 import SearchHeader from '@/components/search-header';
 
 interface HomePageProps {
@@ -29,8 +29,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       ? category
       : undefined;
 
-  const [projects, totalProjects] = await db.$transaction([
-    db.project.findMany({
+  const [works, totalWorks] = await db.$transaction([
+    db.work.findMany({
       take: 12,
       where: {
         title: {
@@ -43,7 +43,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         createdAt: 'desc'
       }
     }),
-    db.project.count({
+    db.work.count({
       where: {
         title: {
           contains: titleContains,
@@ -54,14 +54,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     })
   ]);
 
-  const pageCount = Math.ceil(totalProjects / 12);
+  const pageCount = Math.ceil(totalWorks / 12);
 
   return (
     <>
       <SearchHeader search={titleContains} />
       <section className='flex flex-col justify-start items-center lg:px-20 py-6 px-5'>
         <FilterNav />
-        <ProjectList initialData={projects} pageCount={pageCount} />
+        <WorkList initialData={works} pageCount={pageCount} />
       </section>
     </>
   );

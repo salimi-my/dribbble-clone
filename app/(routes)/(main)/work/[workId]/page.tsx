@@ -5,54 +5,54 @@ import { notFound } from 'next/navigation';
 import { Github, Globe } from 'lucide-react';
 
 import db from '@/lib/db';
-import ProjectOwner from '@/components/project-owner';
+import WorkOwner from '@/components/work-owner';
 import { Separator } from '@/components/ui/separator';
-import ProjectHeader from '@/components/project-header';
-import ProjectLayout from '@/components/ui/project-layout';
+import WorkHeader from '@/components/work-header';
+import WorkLayout from '@/components/ui/work-layout';
 
-export default async function ProjectPage({
+export default async function WorkPage({
   params
 }: {
-  params: { projectId: string };
+  params: { workId: string };
 }) {
-  const isValidId = ObjectID.isValid(params.projectId);
+  const isValidId = ObjectID.isValid(params.workId);
 
   if (!isValidId) {
     notFound();
   }
 
-  const project = await db.project.findUnique({
+  const work = await db.work.findUnique({
     where: {
-      id: params.projectId
+      id: params.workId
     }
   });
 
-  if (!project) {
+  if (!work) {
     notFound();
   }
 
   return (
-    <ProjectLayout>
+    <WorkLayout>
       <div className='w-full relative pb-[70px]'>
-        <ProjectHeader userId={project.userId} title={project.title} />
+        <WorkHeader userId={work.userId} title={work.title} />
         <div className='flex justify-center md:px-4 lg:px-[120px]'>
           <div className='flex flex-col relative max-w-5xl'>
             <Image
-              src={project.image}
-              alt={project.title}
+              src={work.image}
+              alt={work.title}
               width={1024}
               height={768}
               priority
               className='my-7 md:rounded-md'
             />
             <p className='font-medium text-lg my-8 px-4 md:px-0'>
-              {project.description}
+              {work.description}
             </p>
             <div className='flex justify-start gap-2 h-5 px-4 md:px-0'>
               <div className='inline-flex items-center gap-2'>
                 <Github className='w-5 h-5' />
                 <Link
-                  href={project.githubUrl}
+                  href={work.githubUrl}
                   target='_blank'
                   rel='noreferrer'
                   className='hover:underline underline-offset-4 text-sm font-medium'
@@ -64,7 +64,7 @@ export default async function ProjectPage({
               <div className='inline-flex items-center gap-2'>
                 <Globe className='w-5 h-5' />
                 <Link
-                  href={project.githubUrl}
+                  href={work.githubUrl}
                   target='_blank'
                   rel='noreferrer'
                   className='hover:underline underline-offset-4 text-sm font-medium'
@@ -73,10 +73,10 @@ export default async function ProjectPage({
                 </Link>
               </div>
             </div>
-            <ProjectOwner userId={project.userId} />
+            <WorkOwner userId={work.userId} />
           </div>
         </div>
       </div>
-    </ProjectLayout>
+    </WorkLayout>
   );
 }

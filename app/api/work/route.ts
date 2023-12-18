@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const project = await db.project.create({
+    const work = await db.work.create({
       data: {
         userId,
         image,
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
 
     revalidatePath('/');
 
-    return NextResponse.json({ success: true, project });
+    return NextResponse.json({ success: true, work });
   } catch (error) {
     let message;
 
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
       message = String(error);
     }
 
-    console.log('[PROJECT_POST]', error);
+    console.log('[WORK_POST]', error);
 
     return NextResponse.json(
       { success: false, error: message },
@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
         ? category
         : undefined;
 
-    const projects = await db.project.findMany({
+    const works = await db.work.findMany({
       skip: typeof offset === 'string' ? parseInt(offset) : 0,
       take: 12,
       where: {
@@ -128,7 +128,7 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    return NextResponse.json(projects);
+    return NextResponse.json(works);
   } catch (error) {
     let message;
 
@@ -138,7 +138,7 @@ export async function GET(req: NextRequest) {
       message = String(error);
     }
 
-    console.log('[PROJECT_GET]', error);
+    console.log('[WORK_GET]', error);
 
     return NextResponse.json(
       { success: false, error: message },

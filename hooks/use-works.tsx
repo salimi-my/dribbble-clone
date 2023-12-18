@@ -2,19 +2,19 @@ import useSWR from 'swr';
 
 import fetcher from '@/lib/fetcher';
 
-interface ProjectParams {
+interface WorkParams {
   offset?: number;
   search?: string | null;
   category?: string | null;
   userId?: string;
 }
 
-export default function useProjects({
+export default function useWorks({
   offset,
   search,
   category,
   userId
-}: ProjectParams) {
+}: WorkParams) {
   let params = '';
 
   if (offset !== undefined && typeof offset === 'number') {
@@ -37,7 +37,7 @@ export default function useProjects({
     params += params === '' ? '?userId=' + category : '&userId=' + userId;
   }
 
-  const { data, error, isLoading } = useSWR(`/api/project${params}`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/work${params}`, fetcher);
 
   return {
     data,

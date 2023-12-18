@@ -80,7 +80,7 @@ export default function UploadForm() {
 
       const newValues = { ...values, image: imageURL };
 
-      const response = await axios.post('/api/project', newValues);
+      const response = await axios.post('/api/work', newValues);
 
       if (response.data.success) {
         toast({

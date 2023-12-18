@@ -1,31 +1,31 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Project } from '@prisma/client';
+import { Work } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 
-import useProjects from '@/hooks/use-projects';
-import ProjectCard from '@/components/project-card';
+import useWorks from '@/hooks/use-works';
+import WorkCard from '@/components/work-card';
 
-interface ProjectPageProps {
+interface WorkPageProps {
   index: number;
   setLoading: (value: boolean) => void;
   isProfile: boolean;
   userId?: string;
 }
 
-export default function ProjectPage({
+export default function WorkPage({
   index,
   setLoading,
   isProfile,
   userId
-}: ProjectPageProps) {
+}: WorkPageProps) {
   const searchParams = useSearchParams();
 
   const search = searchParams.get('search');
   const category = searchParams.get('category');
 
-  const { data, isLoading, error } = useProjects({
+  const { data, isLoading, error } = useWorks({
     offset: (index - 1) * 12,
     search,
     category,
@@ -40,12 +40,8 @@ export default function ProjectPage({
     <>
       {data &&
         !isLoading &&
-        data.map((project: Project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            isProfile={isProfile}
-          />
+        data.map((work: Work) => (
+          <WorkCard key={work.id} work={work} isProfile={isProfile} />
         ))}
     </>
   );

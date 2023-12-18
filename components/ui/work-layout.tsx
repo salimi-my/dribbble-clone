@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef, ReactNode } from 'react';
 
-export default function ProjectLayout({ children }: { children: ReactNode }) {
+export default function WorkLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const overlay = useRef<HTMLDivElement>(null);
   const wrapper = useRef<HTMLDivElement>(null);

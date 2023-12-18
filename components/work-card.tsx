@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Project } from '@prisma/client';
+import { Work } from '@prisma/client';
 import { BookmarkIcon, HeartIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -11,26 +11,26 @@ import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-interface ProjectCardProps {
-  project: Project;
+interface WorkCardProps {
+  work: Work;
   isProfile: boolean;
 }
 
-export default function ProjectCard({ project, isProfile }: ProjectCardProps) {
-  const { data, isLoading } = useGetProfile({ userId: project.userId });
+export default function WorkCard({ work, isProfile }: WorkCardProps) {
+  const { data, isLoading } = useGetProfile({ userId: work.userId });
 
   return (
     <div className='flex flex-col gap-2'>
       <Link
-        href={`project/${project.id}`}
+        href={`work/${work.id}`}
         className={cn(
           'relative w-full overflow-hidden group',
           isProfile ? 'h-[225px] xl:h-[360px]' : 'h-[225px]'
         )}
       >
         <Image
-          src={project.image}
-          alt={project.title}
+          src={work.image}
+          alt={work.title}
           fill
           sizes='(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1439px) 33vw, 25vw'
           className='object-cover rounded-lg'
@@ -38,7 +38,7 @@ export default function ProjectCard({ project, isProfile }: ProjectCardProps) {
         <div className='opacity-0 group-hover:opacity-100 group-hover:cursor-pointer absolute top-0 bottom-0 right-0 left-0 p-5 flex z-10 items-end rounded-lg bg-card-info transition-opacity ease-in-out duration-300'>
           <div className='w-full flex justify-between items-center'>
             <div className='text-white font-medium w-1/2 truncate'>
-              {project.title}
+              {work.title}
             </div>
             <div className='flex justify-end'>
               <div className='bg-white rounded-full flex justify-center items-center w-10 h-10 ml-3'>

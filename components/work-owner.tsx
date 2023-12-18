@@ -8,11 +8,11 @@ import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-interface ProjectOwnerProps {
+interface WorkOwnerProps {
   userId: string;
 }
 
-export default function ProjectOwner({ userId }: ProjectOwnerProps) {
+export default function WorkOwner({ userId }: WorkOwnerProps) {
   const { data, isLoading } = useGetProfile({ userId });
 
   return (

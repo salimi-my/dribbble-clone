@@ -10,12 +10,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { BookmarkIcon, HeartIcon, Mail } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-interface ProjectHeaderProps {
+interface WorkHeaderProps {
   userId: string;
   title: string;
 }
 
-export default function ProjectHeader({ userId, title }: ProjectHeaderProps) {
+export default function WorkHeader({ userId, title }: WorkHeaderProps) {
   const { data, isLoading } = useGetProfile({ userId });
 
   const [ref, entry] = useIntersectionObserver({

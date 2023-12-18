@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { MoreHorizontal } from 'lucide-react';
 import type { User } from '@clerk/nextjs/server';
-import type { Profile, Project } from '@prisma/client';
+import type { Profile, Work } from '@prisma/client';
 
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons/Icons';
@@ -10,14 +10,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 interface ProfileHeaderProps {
   user: User;
   profile: Profile;
-  projects: Project[];
+  works: Work[];
   isOwner: boolean;
 }
 
 export default function ProfileHeader({
   user,
   profile,
-  projects,
+  works,
   isOwner
 }: ProfileHeaderProps) {
   const randomNumber = (min: number, max: number) => {
@@ -26,8 +26,8 @@ export default function ProfileHeader({
 
   return (
     <>
-      {/* profile header with no project */}
-      {projects.length === 0 && (
+      {/* profile header with no work */}
+      {works.length === 0 && (
         <div className='w-full pt-9 pb-7 flex flex-col md:items-center justify-start'>
           <div className='flex flex-col md:flex-row'>
             <Avatar className='h-[84px] w-[84px] md:h-[120px] md:w-[120px]'>
@@ -75,14 +75,14 @@ export default function ProfileHeader({
         </div>
       )}
 
-      {/* profile header with project */}
-      {projects.length > 0 && (
+      {/* profile header with work */}
+      {works.length > 0 && (
         <div className='my-5 w-full flex flex-col md:flex-row justify-between gap-[42px] md:gap-[60px]'>
           <div className='w-full flex justify-end grow max-w-[722px] md:order-2'>
             <div className='relative'>
               <Image
-                src={projects[0].image}
-                alt={projects[0].title}
+                src={works[0].image}
+                alt={works[0].title}
                 width={578}
                 height={364}
                 className='w-full max-w-[578px] h-auto object-cover object-center rounded-3xl'
