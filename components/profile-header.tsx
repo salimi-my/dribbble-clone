@@ -28,16 +28,16 @@ export default function ProfileHeader({
     <>
       {/* profile header with no project */}
       {projects.length === 0 && (
-        <div className='pt-9 pb-7 flex flex-col items-center justify-start'>
-          <div className='flex'>
-            <Avatar className='h-[120px] w-[120px]'>
+        <div className='w-full pt-9 pb-7 flex flex-col md:items-center justify-start'>
+          <div className='flex flex-col md:flex-row'>
+            <Avatar className='h-[84px] w-[84px] md:h-[120px] md:w-[120px]'>
               <AvatarImage src={user.imageUrl} alt='avatar' />
               <AvatarFallback>
                 {user.firstName?.charAt(0)}
                 {user.lastName?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <div className='flex flex-col ml-10'>
+            <div className='flex flex-col md:ml-10'>
               <h1 className='text-3xl font-bold mt-[5px] mb-[10px]'>
                 {user.firstName} {user.lastName}
               </h1>
@@ -77,7 +77,19 @@ export default function ProfileHeader({
 
       {/* profile header with project */}
       {projects.length > 0 && (
-        <div className='my-10 w-full flex justify-between gap-[60px]'>
+        <div className='my-5 w-full flex flex-col md:flex-row justify-between gap-[42px] md:gap-[60px]'>
+          <div className='w-full flex justify-end grow max-w-[722px] md:order-2'>
+            <div className='relative'>
+              <Image
+                src={projects[0].image}
+                alt={projects[0].title}
+                width={578}
+                height={364}
+                className='w-full max-w-[578px] h-auto object-cover object-center rounded-3xl'
+              />
+              <Icons.probadge className='absolute -bottom-[50px] right-[10px] md:top-[8%] md:-left-[50px] lg:-left-[68px] text-[#6e6d7a] w-[100px] lg:w-[135px] h-auto' />
+            </div>
+          </div>
           <div className='flex flex-col'>
             <Avatar className='h-[84px] w-[84px] mb-6'>
               <AvatarImage src={user.imageUrl} alt='avatar' />
@@ -86,11 +98,11 @@ export default function ProfileHeader({
                 {user.lastName?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <h1 className='text-3xl font-bold mb-3'>
+            <h1 className='text-xl font-medium lg:text-3xl lg:font-bold mb-3'>
               {user.firstName} {user.lastName}
             </h1>
-            <h2 className='text-5xl font-bold'>{profile.bio}</h2>
-            <div className='flex gap-6 text-[#6e6d7a] mt-4'>
+            <h2 className='text-2xl lg:text-5xl font-bold'>{profile.bio}</h2>
+            <div className='flex gap-3 lg:gap-6 text-[#6e6d7a] mt-4 text-sm lg:text-base'>
               <p>{randomNumber(5000, 2000)} followers</p>
               <p>{randomNumber(500, 100)} following</p>
               <p>{randomNumber(5000, 100)} likes</p>
@@ -122,18 +134,6 @@ export default function ProfileHeader({
               >
                 <MoreHorizontal className='w-5 h-5' />
               </Button>
-            </div>
-          </div>
-          <div className='w-full flex justify-end grow max-w-[722px]'>
-            <div className='relative'>
-              <Image
-                src={projects[0].image}
-                alt={projects[0].title}
-                width={578}
-                height={364}
-                className='w-full max-w-[578px] h-auto object-cover object-center rounded-3xl'
-              />
-              <Icons.probadge className='absolute top-[8%] -left-[68px] text-[#6e6d7a] w-[135px] h-auto' />
             </div>
           </div>
         </div>
