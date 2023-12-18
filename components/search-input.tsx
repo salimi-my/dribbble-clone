@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { Search } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
+import useOrigin from '@/hooks/use-origin';
 import { Input } from '@/components/ui/input';
 
 export default function SearchInput() {
   const router = useRouter();
-  const pathName = usePathname();
+  const origin = useOrigin();
   const searchParams = useSearchParams();
   const [searchVal, setSearchVal] = useState('');
 
@@ -16,17 +17,17 @@ export default function SearchInput() {
 
   const handleSearch = () => {
     if (category === null) {
-      router.push(`${pathName}?search=${searchVal}`);
+      router.push(`${origin}?search=${searchVal}`);
     } else {
-      router.push(`${pathName}?search=${searchVal}&category=${category}`);
+      router.push(`${origin}?search=${searchVal}&category=${category}`);
     }
   };
 
   const handleMobileSearch = () => {
     if (category === null) {
-      router.push(`${pathName}?search=`);
+      router.push(`${origin}?search=`);
     } else {
-      router.push(`${pathName}?search=&category=${category}`);
+      router.push(`${origin}?search=&category=${category}`);
     }
   };
 

@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { Search } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useOrigin from '@/hooks/use-origin';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface SearchHeaderProps {
   search: string | undefined;
@@ -12,7 +13,7 @@ interface SearchHeaderProps {
 
 export default function SearchHeader({ search }: SearchHeaderProps) {
   const router = useRouter();
-  const pathName = usePathname();
+  const origin = useOrigin();
   const searchParams = useSearchParams();
   const [searchVal, setSearchVal] = useState('');
 
@@ -20,9 +21,9 @@ export default function SearchHeader({ search }: SearchHeaderProps) {
 
   const handleSearch = () => {
     if (category === null) {
-      router.push(`${pathName}?search=${searchVal}`);
+      router.push(`${origin}?search=${searchVal}`);
     } else {
-      router.push(`${pathName}?search=${searchVal}&category=${category}`);
+      router.push(`${origin}?search=${searchVal}&category=${category}`);
     }
   };
 

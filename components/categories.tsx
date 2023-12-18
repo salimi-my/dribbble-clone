@@ -5,7 +5,8 @@ import { useOverflow } from 'use-overflow';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useOrigin from '@/hooks/use-origin';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const categories = [
   'Discover',
@@ -21,7 +22,7 @@ const categories = [
 
 export default function Categories() {
   const router = useRouter();
-  const pathName = usePathname();
+  const origin = useOrigin();
   const searchParams = useSearchParams();
 
   const search = searchParams.get('search');
@@ -47,15 +48,15 @@ export default function Categories() {
   const handleFilter = (item: string) => {
     if (item === 'Discover') {
       if (search === null) {
-        router.push(`${pathName}`);
+        router.push(`${origin}`);
       } else {
-        router.push(`${pathName}?search=${search}`);
+        router.push(`${origin}?search=${search}`);
       }
     } else {
       if (search === null) {
-        router.push(`${pathName}?category=${item}`);
+        router.push(`${origin}?category=${item}`);
       } else {
-        router.push(`${pathName}?search=${search}&category=${item}`);
+        router.push(`${origin}?search=${search}&category=${item}`);
       }
     }
   };
@@ -96,9 +97,7 @@ export default function Categories() {
                 index === 0 && refXOverflowing && '-ml-4',
                 index === item.length - 1 && refXOverflowing && '-mr-4',
                 (item === category ||
-                  (item === 'Discover' &&
-                    pathName === '/' &&
-                    category === null)) &&
+                  (item === 'Discover' && category === null)) &&
                   'bg-[#f8f7f4]'
               )}
             >
