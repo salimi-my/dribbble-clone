@@ -1,11 +1,11 @@
+import Image from 'next/image';
 import { MoreHorizontal } from 'lucide-react';
 import type { User } from '@clerk/nextjs/server';
 import type { Profile, Project } from '@prisma/client';
 
 import { Button } from '@/components/ui/button';
+import { Icons } from '@/components/icons/Icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Image from 'next/image';
-import ProBadge from './icons/pro-badge';
 
 interface ProfileHeaderProps {
   user: User;
@@ -124,7 +124,7 @@ export default function ProfileHeader({
               </Button>
             </div>
           </div>
-          <div className='relative w-full flex justify-end grow max-w-[722px] overflow-hidden'>
+          <div className='w-full flex justify-end grow max-w-[722px]'>
             <div className='relative'>
               <Image
                 src={projects[0].image}
@@ -133,7 +133,7 @@ export default function ProfileHeader({
                 height={364}
                 className='w-full max-w-[578px] h-auto object-cover object-center rounded-3xl'
               />
-              <ProBadge />
+              <Icons.probadge className='absolute top-[8%] -left-[68px] text-[#6e6d7a] w-[135px] h-auto' />
             </div>
           </div>
         </div>

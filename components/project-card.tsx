@@ -3,8 +3,7 @@ import Image from 'next/image';
 import { Project } from '@prisma/client';
 import { BookmarkIcon, HeartIcon } from 'lucide-react';
 
-import Eye from '@/components/icons/eye';
-import Heart from '@/components/icons/heart';
+import { Icons } from '@/components/icons/Icons';
 import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -70,11 +69,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
         <div className='flex items-center gap-2'>
           <div className='flex items-center space-x-[2px]'>
-            <Heart />
+            <Icons.heart className='w-4 h-4 fill-current text-[#9e9ea7]' />
             <p className='text-xs font-medium text-[#3d3d4e]'>70</p>
           </div>
           <div className='flex items-center space-x-[2px]'>
-            <Eye />
+            <Icons.eye className='w-4 h-4 fill-current text-[#9e9ea7]' />
             <p className='text-xs font-medium text-[#3d3d4e]'>3.6k</p>
           </div>
         </div>
