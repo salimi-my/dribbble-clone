@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { Project } from '@prisma/client';
 
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import ProjectPage from '@/components/project-page';
 import ProjectInitialPage from '@/components/project-initial-page';
@@ -11,23 +12,47 @@ import ProjectInitialPage from '@/components/project-initial-page';
 interface ProjectListProps {
   initialData: Project[];
   pageCount: number;
+  isProfile?: boolean;
+  userId?: string;
 }
 
 export default function ProjectList({
   initialData,
-  pageCount
+  pageCount,
+  isProfile = false,
+  userId
 }: ProjectListProps) {
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const pages = [<ProjectInitialPage key={1} initialData={initialData} />];
+  const pages = [
+    <ProjectInitialPage
+      key={1}
+      initialData={initialData}
+      isProfile={isProfile}
+    />
+  ];
   for (let i = 2; i <= count; i++) {
-    pages.push(<ProjectPage index={i} key={i} setLoading={setLoading} />);
+    pages.push(
+      <ProjectPage
+        index={i}
+        key={i}
+        setLoading={setLoading}
+        isProfile={isProfile}
+        userId={userId}
+      />
+    );
   }
 
   return (
     <>
-      <section className='w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-9 pt-4 lg:pt-8'>
+      <section
+        className={cn(
+          'w-full gap-9 pt-4 lg:pt-8 grid md:grid-cols-2 lg:grid-cols-3',
+          !isProfile && 'xl:grid-cols-4',
+          isProfile && 'xl:gap-12'
+        )}
+      >
         {pages}
       </section>
       {count < pageCount && !loading ? (

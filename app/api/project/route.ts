@@ -93,8 +93,10 @@ export async function GET(req: NextRequest) {
     const offset = searchParams.get('offset');
     const search = searchParams.get('search');
     const category = searchParams.get('category');
+    const userId = searchParams.get('userId');
 
     const titleContains = typeof search === 'string' ? search : undefined;
+    const ownerUserId = typeof userId === 'string' ? userId : undefined;
     const categoryContains =
       typeof category === 'string' &&
       [
@@ -114,6 +116,7 @@ export async function GET(req: NextRequest) {
       skip: typeof offset === 'string' ? parseInt(offset) : 0,
       take: 12,
       where: {
+        userId: ownerUserId,
         title: {
           contains: titleContains,
           mode: 'insensitive'

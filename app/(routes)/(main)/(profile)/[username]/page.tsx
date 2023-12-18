@@ -4,6 +4,7 @@ import { clerkClient, currentUser } from '@clerk/nextjs';
 
 import db from '@/lib/db';
 import ProfileNav from '@/components/profile-nav';
+import ProjectList from '@/components/project-list';
 import ProfileHeader from '@/components/profile-header';
 
 export default async function ProfilePage({
@@ -69,6 +70,15 @@ export default async function ProfilePage({
         }
       />
       <ProfileNav username={profile.username} activeNav='work' />
+
+      <div className='w-full mt-3 flex flex-col items-center'>
+        <ProjectList
+          initialData={projects}
+          pageCount={pageCount}
+          isProfile={true}
+          userId={user.id}
+        />
+      </div>
     </section>
   );
 }
