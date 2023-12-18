@@ -16,13 +16,15 @@ interface WorkListProps {
   pageCount: number;
   isProfile?: boolean;
   userId?: string;
+  userFullname?: string;
 }
 
 export default function WorkList({
   initialData,
   pageCount,
   isProfile = false,
-  userId
+  userId,
+  userFullname
 }: WorkListProps) {
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -45,9 +47,7 @@ export default function WorkList({
   return (
     <>
       {initialData.length === 0 && !isProfile && (
-        <section
-          className={cn('w-full gap-9 pt-4 lg:pt-8 flex flex-col items-center')}
-        >
+        <section className='w-full pt-4 lg:pt-8 flex flex-col items-center'>
           <div className='relative inline-flex mb-5'>
             <Image
               src='/no-results.png'
@@ -67,6 +67,23 @@ export default function WorkList({
           </h3>
           <p className='mb-5 text-[#6e6d7a] text-center'>
             It seems we can’t find any results based on your search.
+          </p>
+        </section>
+      )}
+      {initialData.length === 0 && isProfile && (
+        <section className='w-full pt-4 lg:pt-8 flex flex-col items-center my-[90px]'>
+          <Image
+            src='/no-works.jpg'
+            alt='no works'
+            width={190}
+            height={190}
+            className='mb-6'
+          />
+          <h4 className='mb-3 text-xl font-medium text-center'>No works :(</h4>
+          <p className='text-sm text-center max-w-[325px]'>
+            It looks like{' '}
+            {typeof userFullname === 'string' ? userFullname : 'this user'}{' '}
+            hasn’t uploaded any shots yet. Check back soon!
           </p>
         </section>
       )}

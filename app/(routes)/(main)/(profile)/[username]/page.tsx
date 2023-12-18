@@ -77,6 +77,7 @@ export default async function ProfilePage({
           pageCount={pageCount}
           isProfile={true}
           userId={user.id}
+          userFullname={user.firstName + ' ' + user.lastName}
         />
       </div>
     </section>
