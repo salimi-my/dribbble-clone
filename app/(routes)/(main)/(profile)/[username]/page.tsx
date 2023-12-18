@@ -3,6 +3,7 @@ import type { User } from '@clerk/nextjs/server';
 import { clerkClient, currentUser } from '@clerk/nextjs';
 
 import db from '@/lib/db';
+import ProfileNav from '@/components/profile-nav';
 import ProfileHeader from '@/components/profile-header';
 
 export default async function ProfilePage({
@@ -67,6 +68,7 @@ export default async function ProfilePage({
           loggedInUser && loggedInUser.id === profile.userId ? true : false
         }
       />
+      <ProfileNav username={profile.username} activeNav='work' />
     </section>
   );
 }
