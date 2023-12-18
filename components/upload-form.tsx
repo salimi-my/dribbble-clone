@@ -112,6 +112,7 @@ export default function UploadForm() {
       >
         <div className='w-full flex justify-between md:mx-2'>
           <Button
+            type='button'
             onClick={() => router.back()}
             variant='outline'
             className='rounded-full p-[19px] shadow-none text-[13px] font-semibold'
