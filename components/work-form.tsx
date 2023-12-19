@@ -168,6 +168,7 @@ export default function WorkForm({ work }: WorkFormProps) {
         <SingleImageDropzone
           className='w-full h-full max-w-5xl min-h-[321px] md:min-h-[524px]'
           value={file}
+          dropzoneOptions={{ maxSize: 1024 * 1024 * 10 }}
           onChange={(file) => setFile(file)}
         />
 
