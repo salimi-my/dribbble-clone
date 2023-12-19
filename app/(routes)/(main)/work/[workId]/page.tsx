@@ -43,7 +43,7 @@ export default async function WorkPage({
               width={1024}
               height={768}
               priority
-              className='my-7 md:rounded-md'
+              className='my-7 md:rounded-md contrast-[0.95]'
             />
             <p className='font-medium text-lg my-8 px-4 md:px-0'>
               {work.description}

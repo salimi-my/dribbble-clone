@@ -33,7 +33,7 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
           alt={work.title}
           fill
           sizes='(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1439px) 33vw, 25vw'
-          className='object-cover rounded-lg'
+          className='object-cover rounded-lg contrast-[0.95]'
         />
         <div className='opacity-0 group-hover:opacity-100 group-hover:cursor-pointer absolute top-0 bottom-0 right-0 left-0 p-5 flex z-10 items-end rounded-lg bg-card-info transition-opacity ease-in-out duration-300'>
           <div className='w-full flex justify-between items-center'>
