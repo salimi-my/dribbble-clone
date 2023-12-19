@@ -76,6 +76,9 @@ export default async function ProfilePage({
           initialData={works}
           pageCount={pageCount}
           isProfile={true}
+          isOwner={
+            loggedInUser && loggedInUser.id === profile.userId ? true : false
+          }
           userId={user.id}
           userFullname={user.firstName + ' ' + user.lastName}
         />

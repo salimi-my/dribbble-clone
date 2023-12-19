@@ -15,6 +15,7 @@ interface WorkListProps {
   initialData: Work[];
   pageCount: number;
   isProfile?: boolean;
+  isOwner?: boolean;
   userId?: string;
   userFullname?: string;
 }
@@ -23,6 +24,7 @@ export default function WorkList({
   initialData,
   pageCount,
   isProfile = false,
+  isOwner = false,
   userId,
   userFullname
 }: WorkListProps) {
@@ -46,6 +48,7 @@ export default function WorkList({
 
   return (
     <>
+      {/* no results fallback for landing page */}
       {initialData.length === 0 && !isProfile && (
         <section className='w-full pt-4 lg:pt-8 flex flex-col items-center'>
           <div className='relative inline-flex mb-5'>
@@ -70,7 +73,9 @@ export default function WorkList({
           </p>
         </section>
       )}
-      {initialData.length === 0 && isProfile && (
+
+      {/* no results fallback for other's profile page */}
+      {initialData.length === 0 && isProfile && !isOwner && (
         <section className='w-full pt-4 lg:pt-8 flex flex-col items-center my-[90px]'>
           <Image
             src='/no-works.jpg'
@@ -87,6 +92,41 @@ export default function WorkList({
           </p>
         </section>
       )}
+
+      {/* no results fallback for owner's profile page */}
+      {initialData.length === 0 && isProfile && isOwner && (
+        <section className='w-full gap-9 pt-4 lg:pt-8 grid md:grid-cols-2 lg:grid-cols-3 xl:gap-12'>
+          <div className='w-full flex flex-col items-center justify-center text-center h-[270px] xl:h-[360px] border-[2px] border-dashed border-[#e7e7e9] rounded-lg'>
+            <div className='mb-[3%] lg:hidden xl:block'>
+              <div className='w-[10%] my-0 h-[28px] mx-auto pb-[6%] pl-[10%] after:border-b-[28px] after:border-[#787eff] after:ml-[-28px] after:border-x-transparent after:border-x-[28px] after:w-0 after:h-0 after:content-[""] after:block' />
+              <div className='w-[10%] my-0 h-[28px] mx-auto pb-[6%] pl-[10%] after:border-b-[28px] after:border-[#4d44c6] after:ml-[-28px] after:border-x-transparent after:border-x-[28px] after:w-0 after:h-0 after:content-[""] after:block' />
+            </div>
+            <h2 className='text-xl lg:text-xl xl:text-2xl font-bold mb-2'>
+              Upload your first work
+            </h2>
+            <div className='w-[80%] max-w-[340px] mx-auto'>
+              <p className='mb-[5%]'>
+                Show off your best work. Get feedback, likes and be a part of a
+                growing community.
+              </p>
+            </div>
+            <Button
+              className='rounded-full font-semibold hover:opacity-80 text-xs'
+              asChild
+            >
+              <Link href='/upload-new'>Upload your first work</Link>
+            </Button>
+          </div>
+          {[...Array(5)].map((_, i) => (
+            <div
+              key={i}
+              className='w-full h-[225px] xl:h-[360px] rounded-lg bg-gradient-to-b from-black/[0.03] to-transparent'
+            />
+          ))}
+        </section>
+      )}
+
+      {/* display work listing results */}
       {initialData.length > 0 && (
         <section
           className={cn(
