@@ -29,7 +29,9 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
         href={`work/${work.id}`}
         className={cn(
           'relative w-full overflow-hidden group',
-          isProfile ? 'h-[225px] xl:h-[360px]' : 'h-[225px]'
+          isProfile
+            ? 'h-[260px] lg:h-[225px] xl:h-[360px]'
+            : 'h-[260px] lg:h-[225px] xl:h-[260px]'
         )}
         scroll={false}
       >
