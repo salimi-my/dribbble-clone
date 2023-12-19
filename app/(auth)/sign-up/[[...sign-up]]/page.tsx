@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Metadata } from 'next';
 import { SignUp } from '@clerk/nextjs';
+
+export const metadata: Metadata = {
+  title: 'Sign Up | Bribbble',
+  description:
+    'Create an account on Bribbble, the world’s leading community for designers to share, grow, and get hired.'
+};
 
 export default function SignUpPage() {
   return (

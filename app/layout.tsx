@@ -11,8 +11,10 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Bribbble',
-  description: 'A Dribbble clone'
+  title:
+    'Bribbble - Discover the World’s Top Designers & Creative Professionals',
+  description:
+    'Find Top Designers & Creative Professionals on Bribbble. We are where designers gain inspiration, feedback, community, and jobs.'
 };
 
 export default async function RootLayout({

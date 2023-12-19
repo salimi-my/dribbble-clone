@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import ObjectID from 'bson-objectid';
-import { notFound } from 'next/navigation';
 import { auth } from '@clerk/nextjs';
+import { notFound } from 'next/navigation';
 import { Github, Globe } from 'lucide-react';
+import { Metadata, ResolvingMetadata } from 'next';
 
 import db from '@/lib/db';
 import WorkOwner from '@/components/work-owner';
@@ -11,6 +12,35 @@ import WorkDelete from '@/components/work-delete';
 import WorkHeader from '@/components/work-header';
 import WorkLayout from '@/components/ui/work-layout';
 import { Separator } from '@/components/ui/separator';
+
+type Props = {
+  params: { workId: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const work = await db.work.findUnique({
+    where: {
+      id: params.workId
+    }
+  });
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: work?.title + ' | Bribbble',
+    description: work?.description,
+    openGraph: {
+      images:
+        typeof work?.image === 'string'
+          ? [{ url: work.image }, ...previousImages]
+          : previousImages
+    }
+  };
+}
 
 export default async function WorkPage({
   params

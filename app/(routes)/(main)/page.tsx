@@ -1,7 +1,42 @@
+import { Metadata, ResolvingMetadata } from 'next';
+
 import db from '@/lib/db';
-import FilterNav from '@/components/filter-nav';
 import WorkList from '@/components/work-list';
+import FilterNav from '@/components/filter-nav';
 import SearchHeader from '@/components/search-header';
+
+type Props = {
+  searchParams: { search?: string; category?: string };
+};
+
+export async function generateMetadata(
+  { searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { search, category } = searchParams;
+
+  const previousTitle = (await parent).title || '';
+
+  let searchTitle =
+    typeof search === 'string'
+      ? 'Browse thousands of ' +
+        search.charAt(0).toUpperCase() +
+        search.slice(1) +
+        ' images for design inspiration | Bribbble'
+      : previousTitle;
+
+  searchTitle =
+    typeof category === 'string'
+      ? 'Browse thousands of ' +
+        category.charAt(0).toUpperCase() +
+        category.slice(1) +
+        ' images for design inspiration | Bribbble'
+      : searchTitle;
+
+  return {
+    title: searchTitle
+  };
+}
 
 interface HomePageProps {
   searchParams: {

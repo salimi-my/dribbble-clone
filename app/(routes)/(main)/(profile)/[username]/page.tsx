@@ -1,11 +1,42 @@
 import { notFound } from 'next/navigation';
 import type { User } from '@clerk/nextjs/server';
+import { Metadata, ResolvingMetadata } from 'next';
 import { clerkClient, currentUser } from '@clerk/nextjs';
 
 import db from '@/lib/db';
-import ProfileNav from '@/components/profile-nav';
 import WorkList from '@/components/work-list';
+import ProfileNav from '@/components/profile-nav';
 import ProfileHeader from '@/components/profile-header';
+
+type Props = {
+  params: { username: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const profile = await db.profile.findUnique({
+    where: {
+      username: params.username
+    }
+  });
+
+  if (!profile) {
+    notFound();
+  }
+
+  const user = await clerkClient.users.getUser(profile.userId);
+
+  const previousTitle = (await parent).title || '';
+
+  return {
+    title:
+      typeof user.firstName === 'string'
+        ? user.firstName + ' ' + user.lastName + ' | Bribbble'
+        : previousTitle
+  };
+}
 
 export default async function ProfilePage({
   params

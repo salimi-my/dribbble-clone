@@ -2,6 +2,12 @@ import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import db from '@/lib/db';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Add Info | Bribbble',
+  description: "Add additional information of your account's profile."
+};
 
 export default async function AddInfoLayout({
   children
