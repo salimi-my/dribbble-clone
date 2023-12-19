@@ -117,8 +117,9 @@ export default function ProfileHeader({
                 <Button
                   variant='outline'
                   className='rounded-full h-12 px-6 font-semibold shadow-none hover:bg-transparent hover:border-[#dbdbde]'
+                  asChild
                 >
-                  Edit Profile
+                  <Link href='/account'>Edit Profile</Link>
                 </Button>
               )}
               {!isOwner && (
