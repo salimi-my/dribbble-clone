@@ -31,6 +31,7 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
           'relative w-full overflow-hidden group',
           isProfile ? 'h-[225px] xl:h-[360px]' : 'h-[225px]'
         )}
+        scroll={false}
       >
         <Image
           src={work.image}
