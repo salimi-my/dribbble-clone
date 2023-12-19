@@ -104,7 +104,69 @@ export async function POST(
       message = String(error);
     }
 
-    console.log('[WORK_POST]', error);
+    console.log('[WORK_WORKID_POST]', error);
+
+    return NextResponse.json(
+      { success: false, error: message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  _req: Request,
+  { params }: { params: { workId: string } }
+) {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthenticated.' },
+        { status: 401 }
+      );
+    }
+
+    if (!params.workId) {
+      return NextResponse.json(
+        { success: false, error: 'Work ID is required.' },
+        { status: 400 }
+      );
+    }
+
+    const workFound = await db.work.findUnique({
+      where: {
+        id: params.workId,
+        userId
+      }
+    });
+
+    if (!workFound) {
+      return NextResponse.json(
+        { success: false, error: 'Work not found.' },
+        { status: 400 }
+      );
+    }
+
+    const work = await db.work.delete({
+      where: {
+        id: params.workId
+      }
+    });
+
+    revalidatePath('/');
+
+    return NextResponse.json({ success: true, work });
+  } catch (error) {
+    let message;
+
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+
+    console.log('[WORK_WORKID_DELETE]', error);
 
     return NextResponse.json(
       { success: false, error: message },

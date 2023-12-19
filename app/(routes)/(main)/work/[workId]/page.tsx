@@ -9,8 +9,8 @@ import db from '@/lib/db';
 import WorkOwner from '@/components/work-owner';
 import WorkDelete from '@/components/work-delete';
 import WorkHeader from '@/components/work-header';
-import { Separator } from '@/components/ui/separator';
 import WorkLayout from '@/components/ui/work-layout';
+import { Separator } from '@/components/ui/separator';
 
 export default async function WorkPage({
   params
@@ -86,7 +86,7 @@ export default async function WorkPage({
                   >
                     Edit
                   </Link>
-                  <WorkDelete />
+                  <WorkDelete work={work} />
                 </div>
               )}
             </div>
