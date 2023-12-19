@@ -19,6 +19,10 @@ interface WorkCardProps {
 export default function WorkCard({ work, isProfile }: WorkCardProps) {
   const { data, isLoading } = useGetProfile({ userId: work.userId });
 
+  const randomNumber = (min: number, max: number) => {
+    return (Math.floor(Math.random() * (max - min + 1)) + min).toLocaleString();
+  };
+
   return (
     <div className='flex flex-col gap-2'>
       <Link
@@ -78,12 +82,26 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
           )}
           <div className='flex items-center gap-2'>
             <div className='flex items-center space-x-[2px]'>
-              <Icons.heart className='w-4 h-4 fill-current text-[#9e9ea7]' />
-              <p className='text-xs font-medium text-[#3d3d4e]'>70</p>
+              {isLoading && <Skeleton className='w-10 h-5' />}
+              {!isLoading && (
+                <>
+                  <Icons.heart className='w-4 h-4 fill-current text-[#9e9ea7]' />
+                  <p className='text-xs font-medium text-[#3d3d4e]'>
+                    {randomNumber(300, 50)}
+                  </p>
+                </>
+              )}
             </div>
             <div className='flex items-center space-x-[2px]'>
-              <Icons.eye className='w-4 h-4 fill-current text-[#9e9ea7]' />
-              <p className='text-xs font-medium text-[#3d3d4e]'>3.6k</p>
+              {isLoading && <Skeleton className='w-10 h-5' />}
+              {!isLoading && (
+                <>
+                  <Icons.eye className='w-4 h-4 fill-current text-[#9e9ea7]' />
+                  <p className='text-xs font-medium text-[#3d3d4e]'>
+                    {randomNumber(10, 1)}.{randomNumber(9, 1)}k
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
