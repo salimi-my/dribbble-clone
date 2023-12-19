@@ -3,6 +3,7 @@
 import * as z from 'zod';
 import axios from 'axios';
 import { useState } from 'react';
+import { Work } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -30,6 +31,10 @@ import {
   SelectValue
 } from '@/components/ui/select';
 
+interface WorkFormProps {
+  work?: Work | null;
+}
+
 const formSchema = z.object({
   image: z.string(),
   title: z.string().min(1, { message: 'Please enter title.' }),
@@ -39,23 +44,27 @@ const formSchema = z.object({
   category: z.string().min(1, { message: 'Please select category.' })
 });
 
-export default function UploadForm() {
+export default function WorkForm({ work }: WorkFormProps) {
   const router = useRouter();
   const { toast } = useToast();
   const { edgestore } = useEdgeStore();
-  const [file, setFile] = useState<File>();
+
+  const [file, setFile] = useState<File | string | undefined>(
+    work?.image ?? undefined
+  );
+
   const [loading, setLoading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      image: '',
-      title: '',
-      description: '',
-      liveSiteUrl: '',
-      githubUrl: '',
-      category: ''
+      image: work?.image ?? '',
+      title: work?.title ?? '',
+      description: work?.description ?? '',
+      liveSiteUrl: work?.liveSiteUrl ?? '',
+      githubUrl: work?.githubUrl ?? '',
+      category: work?.category ?? ''
     }
   });
 
@@ -64,32 +73,49 @@ export default function UploadForm() {
       setLoading(true);
       setImageError(false);
 
-      let imageURL = '';
+      let imageURL = work?.image ?? '';
       if (file && file instanceof File) {
         const uploadRes = await edgestore.publicImages.upload({
-          file
+          file,
+          options: {
+            replaceTargetUrl: work?.image ?? undefined
+          }
         });
 
         if (uploadRes.url) {
           imageURL = uploadRes.url;
         }
-      } else {
+      } else if (imageURL === '') {
         setImageError(true);
         return;
       }
 
       const newValues = { ...values, image: imageURL };
 
-      const response = await axios.post('/api/work', newValues);
+      if (work) {
+        const response = await axios.post(`/api/work/${work.id}`, newValues);
 
-      if (response.data.success) {
-        toast({
-          variant: 'default',
-          title: 'Success!',
-          description: 'Data has been successfully saved.'
-        });
-        router.push('/');
-        router.refresh();
+        if (response.data.success) {
+          toast({
+            variant: 'default',
+            title: 'Success!',
+            description: 'Work has been successfully saved.'
+          });
+          router.push(`/work/${response.data.work.id}`);
+          router.refresh();
+        }
+      } else {
+        const response = await axios.post('/api/work', newValues);
+
+        if (response.data.success) {
+          toast({
+            variant: 'default',
+            title: 'Success!',
+            description: 'Work has been successfully saved.'
+          });
+          router.push('/');
+          router.refresh();
+        }
       }
     } catch (error) {
       console.log(error);

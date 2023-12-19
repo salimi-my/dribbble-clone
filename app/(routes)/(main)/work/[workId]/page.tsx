@@ -2,12 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ObjectID from 'bson-objectid';
 import { notFound } from 'next/navigation';
+import { auth } from '@clerk/nextjs';
 import { Github, Globe } from 'lucide-react';
 
 import db from '@/lib/db';
 import WorkOwner from '@/components/work-owner';
-import { Separator } from '@/components/ui/separator';
+import WorkDelete from '@/components/work-delete';
 import WorkHeader from '@/components/work-header';
+import { Separator } from '@/components/ui/separator';
 import WorkLayout from '@/components/ui/work-layout';
 
 export default async function WorkPage({
@@ -15,6 +17,8 @@ export default async function WorkPage({
 }: {
   params: { workId: string };
 }) {
+  const { userId } = auth();
+
   const isValidId = ObjectID.isValid(params.workId);
 
   if (!isValidId) {
@@ -72,6 +76,19 @@ export default async function WorkPage({
                   Live site
                 </Link>
               </div>
+            </div>
+            <div className='flex justify-center mt-20'>
+              {userId !== null && userId === work.userId && (
+                <div className='p-6 rounded-lg bg-[#fafafb] inline-flex gap-6'>
+                  <Link
+                    href={`/work/${work.id}/edit`}
+                    className='text-[#3d3d4e] text-sm'
+                  >
+                    Edit
+                  </Link>
+                  <WorkDelete />
+                </div>
+              )}
             </div>
             <WorkOwner userId={work.userId} />
           </div>
