@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import db from '@/lib/db';
+import DisclaimerModal from '@/components/modals/disclaimer-modal';
 
 export default async function RouteLayout({
   children
@@ -21,5 +22,11 @@ export default async function RouteLayout({
       redirect('/add-info');
     }
   }
-  return <>{children}</>;
+
+  return (
+    <>
+      <DisclaimerModal />
+      {children}
+    </>
+  );
 }
