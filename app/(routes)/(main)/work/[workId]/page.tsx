@@ -28,7 +28,8 @@ export async function generateMetadata(
   });
 
   // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
+  const previousOpenGraphImages = (await parent).openGraph?.images || [];
+  const previousTwitterImages = (await parent).twitter?.images || [];
 
   return {
     title: work?.title + ' | Bribbble',
@@ -36,8 +37,14 @@ export async function generateMetadata(
     openGraph: {
       images:
         typeof work?.image === 'string'
-          ? [{ url: work.image }, ...previousImages]
-          : previousImages
+          ? [{ url: work.image }, ...previousOpenGraphImages]
+          : previousOpenGraphImages
+    },
+    twitter: {
+      images:
+        typeof work?.image === 'string'
+          ? [{ url: work.image }, ...previousTwitterImages]
+          : previousTwitterImages
     }
   };
 }
