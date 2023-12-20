@@ -86,7 +86,7 @@ export default async function WorkPage({
               priority
               className='my-7 md:rounded-md contrast-[0.95]'
             />
-            <p className='font-medium text-lg my-8 px-4 md:px-0'>
+            <p className='font-medium text-lg my-8 px-4 md:px-0 text-justify'>
               {work.description}
             </p>
             <div className='flex justify-start gap-2 h-5 px-4 md:px-0'>
