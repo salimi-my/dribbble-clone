@@ -65,6 +65,13 @@ export default function Navbar() {
         {userId && (
           <div className='flex justify-end items-center gap-6'>
             <SearchInput />
+            <Button
+              variant='outline'
+              className='hidden xl:flex h-12 rounded-full hover:bg-transparent shadow-none border-[#e7e7e9] hover:border-[#dbdbde] font-semibold px-6'
+              asChild
+            >
+              <Link href='/upload-new'>Share work</Link>
+            </Button>
             <ProfileMenu />
           </div>
         )}
