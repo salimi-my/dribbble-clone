@@ -14,9 +14,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 interface WorkCardProps {
   work: Work;
   isProfile: boolean;
+  isMoreWorks?: boolean;
+  isAlsoLikeWorks?: boolean;
 }
 
-export default function WorkCard({ work, isProfile }: WorkCardProps) {
+export default function WorkCard({
+  work,
+  isProfile,
+  isMoreWorks = false,
+  isAlsoLikeWorks = false
+}: WorkCardProps) {
   const { data, isLoading } = useGetProfile({ userId: work.userId });
 
   const randomNumber = (min: number, max: number) => {
@@ -26,12 +33,13 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
   return (
     <div className='flex flex-col gap-2'>
       <Link
-        href={`work/${work.id}`}
+        href={`/work/${work.id}`}
         className={cn(
           'relative w-full overflow-hidden group',
           isProfile
             ? 'h-[260px] lg:h-[225px] xl:h-[360px]'
-            : 'h-[260px] lg:h-[225px] xl:h-[260px]'
+            : 'h-[260px] lg:h-[225px] xl:h-[260px]',
+          isMoreWorks && 'h-[260px] xl:h-[200px]'
         )}
         scroll={false}
       >
@@ -58,7 +66,7 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
           </div>
         </div>
       </Link>
-      {!isProfile && (
+      {!isProfile && !isMoreWorks && (
         <div className='flex justify-between items-center'>
           {isLoading && (
             <div className='w-full flex justify-start items-center space-x-2'>
@@ -83,30 +91,32 @@ export default function WorkCard({ work, isProfile }: WorkCardProps) {
               </p>
             </Link>
           )}
-          <div className='flex items-center gap-2'>
-            <div className='flex items-center space-x-[2px]'>
-              {isLoading && <Skeleton className='w-10 h-5' />}
-              {!isLoading && (
-                <>
-                  <Icons.heart className='w-4 h-4 fill-current text-[#9e9ea7]' />
-                  <p className='text-xs font-medium text-[#3d3d4e]'>
-                    {randomNumber(300, 50)}
-                  </p>
-                </>
-              )}
+          {!isAlsoLikeWorks && (
+            <div className='flex items-center gap-2'>
+              <div className='flex items-center space-x-[2px]'>
+                {isLoading && <Skeleton className='w-10 h-5' />}
+                {!isLoading && (
+                  <>
+                    <Icons.heart className='w-4 h-4 fill-current text-[#9e9ea7]' />
+                    <p className='text-xs font-medium text-[#3d3d4e]'>
+                      {randomNumber(300, 50)}
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className='flex items-center space-x-[2px]'>
+                {isLoading && <Skeleton className='w-10 h-5' />}
+                {!isLoading && (
+                  <>
+                    <Icons.eye className='w-4 h-4 fill-current text-[#9e9ea7]' />
+                    <p className='text-xs font-medium text-[#3d3d4e]'>
+                      {randomNumber(10, 1)}.{randomNumber(9, 1)}k
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
-            <div className='flex items-center space-x-[2px]'>
-              {isLoading && <Skeleton className='w-10 h-5' />}
-              {!isLoading && (
-                <>
-                  <Icons.eye className='w-4 h-4 fill-current text-[#9e9ea7]' />
-                  <p className='text-xs font-medium text-[#3d3d4e]'>
-                    {randomNumber(10, 1)}.{randomNumber(9, 1)}k
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

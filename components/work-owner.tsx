@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
+import { Work } from '@prisma/client';
 
+import WorkCard from '@/components/work-card';
 import { Button } from '@/components/ui/button';
 import useGetProfile from '@/hooks/use-get-profile';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -10,9 +12,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface WorkOwnerProps {
   userId: string;
+  moreWorks: Work[];
 }
 
-export default function WorkOwner({ userId }: WorkOwnerProps) {
+export default function WorkOwner({ userId, moreWorks }: WorkOwnerProps) {
   const { data, isLoading } = useGetProfile({ userId });
 
   return (
@@ -64,6 +67,34 @@ export default function WorkOwner({ userId }: WorkOwnerProps) {
           )}
         </div>
       </div>
+      {moreWorks.length > 0 && (
+        <div className='w-full flex flex-col gap-4 mt-16 px-4 md:px-0'>
+          {isLoading && (
+            <div className='flex justify-between items-center'>
+              <Skeleton className='h-6 w-32' />
+              <Skeleton className='h-6 w-24' />
+            </div>
+          )}
+          {!isLoading && data && data.user && data.profile && (
+            <div className='flex justify-between items-center'>
+              <h4 className='font-bold max-w-[220px] truncate'>
+                More by {data.user.firstName} {data.user.lastName}
+              </h4>
+              <Link href={`/${data.profile.username}`}>View Profile</Link>
+            </div>
+          )}
+          <div className='w-full grid md:grid-cols-2 xl:grid-cols-4 gap-9'>
+            {moreWorks.slice(0, 4).map((work) => (
+              <WorkCard
+                key={work.id}
+                work={work}
+                isProfile={false}
+                isMoreWorks={true}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 }
