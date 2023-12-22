@@ -163,7 +163,7 @@ export default async function WorkPage({
           <>
             <Separator className='w-full h-[2px] my-20' />
             <div className='w-full flex flex-col items-center md:px-4 lg:px-[120px]'>
-              <div className='w-full max-w-6xl'>
+              <div className='w-full max-w-6xl px-4 md:px-0'>
                 <h5 className='font-bold'>You might also like</h5>
                 <div className='w-full flex justify-center'>
                   <div className='w-full gap-9 pt-4 grid md:grid-cols-2 xl:grid-cols-3'>
