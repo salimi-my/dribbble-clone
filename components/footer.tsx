@@ -74,15 +74,17 @@ export default function Footer() {
       </div>
       <div className='flex flex-col md:flex-row py-11 items-center justify-between text-sm leading-5 text-muted-foreground gap-y-4'>
         <ul className='flex flex-wrap justify-center text-sm gap-x-4 gap-y-1 xl:gap-8'>
-          <li>&copy; {new Date().getFullYear()} Bribbble</li>
           <li>
-            <Link href='/'>Terms</Link>
-          </li>
-          <li>
-            <Link href='/'>Privacy</Link>
-          </li>
-          <li>
-            <Link href='/'>Cookies</Link>
+            &copy; {new Date().getFullYear()} Bribbble. Created by{' '}
+            <Link
+              href='https://www.salimi.my'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='font-medium hover:underline underline-offset-4'
+            >
+              Salimi
+            </Link>
+            .
           </li>
         </ul>
         <ul className='flex flex-wrap justify-center text-sm gap-x-4 gap-y-1 xl:gap-8'>
